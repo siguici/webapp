@@ -1,0 +1,37 @@
+{
+    "name": "sikessem/website",
+    "type": "project",
+    "description": "Build a website with a better starter architecture",
+    "license": "Apache-2.0",
+    "keywords": [
+        "website",
+        "sikessem"
+    ],
+    "authors": [{
+        "name": "SIGUI kessé Emmanuel",
+        "email": "sikessem@omninf.com",
+        "role": "Developer"
+    }],
+    "support": {
+        "source": "https://github.com/SIKessEm/Website-PHP"
+    },
+    "require": {
+        "php": ">=8.0",
+        "sikessem/encapsulation": "dev-main",
+        "sikessem/events": "dev-main",
+        "sikessem/organizer": "dev-main"
+    },
+    "autoload": {
+        "psr-4": {
+          "": "lib",
+          "App\\": "src/"
+        }
+    },
+    "config": {
+        "vendor-dir": "pkg",
+        "preferred-install": "dist",
+        "sort-packages": true
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}
