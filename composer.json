@@ -13,7 +13,8 @@
         "role": "Developer"
     }],
     "support": {
-        "source": "https://github.com/SIKessEm/Website-PHP"
+        "source": "https://github.com/SIKessEm/Website-PHP",
+        "issues": "https://github.com/SIKessEm/Website-PHP/issues"
     },
     "require": {
         "php": ">=8.0",
