@@ -2,15 +2,12 @@
   AddHandler application/x-httpd-ea-php80___lsphp .php .php8 .phtml
 </IfModule>
 
-Options +FollowSymLinks
+<IfModule mod_rewrite.c>
+  Options +FollowSymLinks
+  RewriteEngine On
+  RewriteBase /app/
 
-RewriteEngine On
-
-RewriteCond %{HTTP:X-Forwarded-Proto} !https
-RewriteCond %{SERVER_PORT} 80
-RewriteCond %{HTTPS} off
-RewriteRule .* https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
-
-RewriteCond %{REQUEST_FILENAME} !-d
-RewriteCond %{REQUEST_FILENAME} !-f
-RewriteRule .* index.php [QSA,L,PT,END]
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteRule .* index.php [QSA,L,PT,END]
+</IfModule>
