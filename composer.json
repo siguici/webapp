@@ -1,20 +1,20 @@
 {
-    "name": "sikessem/website",
+    "name": "ske/website",
     "type": "project",
-    "description": "Build a website with a better starter architecture",
+    "description": "The SIKessEm Website",
     "license": "Apache-2.0",
     "keywords": [
         "website",
         "sikessem"
     ],
     "authors": [{
-        "name": "SIGUI kessé Emmanuel",
-        "email": "sikessem@omninf.com",
+        "name": "SIGUI Kessé Emmanuel",
+        "email": "developer@sikessem.com",
         "role": "Developer"
     }],
     "support": {
-        "source": "https://github.com/SIKessEm/Website-PHP",
-        "issues": "https://github.com/SIKessEm/Website-PHP/issues"
+        "source": "https://github.com/SIKessEm/Website",
+        "issues": "https://github.com/SIKessEm/Website/issues"
     },
     "require": {
         "php": ">=8.0",
