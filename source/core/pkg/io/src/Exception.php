@@ -1,5 +1,5 @@
 <?php namespace Ske\IO;
 
-class Error extends \Exception {
+class Exception extends \Exception {
     const INVALID_STREAM = 0x00001;
 }

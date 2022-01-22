@@ -29,7 +29,6 @@
         }
     },
     "config": {
-        "vendor-dir": "php_packages",
         "preferred-install": "dist",
         "sort-packages": true
     },

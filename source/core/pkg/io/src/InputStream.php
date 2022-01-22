@@ -1,7 +1,7 @@
 <?php namespace Ske\IO;
 
-trait Input_Trait {
-    use Stream_Trait;
+class InputStream implements Input {
+    use Stream;
 
     public function read(int $length): string|false {
         return fread($this->getStream(), $length);

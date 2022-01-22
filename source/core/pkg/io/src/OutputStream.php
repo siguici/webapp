@@ -1,7 +1,7 @@
 <?php namespace Ske\IO;
 
-trait Output_Trait {
-    use Stream_Trait;
+class OutputStream implements Output {
+    use Stream;
 
     public function write(string $text, ?int $length = null): int|false {
         return fwrite($this->getStream(), $text, $length);
