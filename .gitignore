@@ -1,3 +1,8 @@
-*test*
-/pkg/*
-*.lock
+.ignore/
+/php_packages/
+/node_modules/
+composer.lock
+package-lock.json
+/public/static/
+/env.ini
+/ftp.ini

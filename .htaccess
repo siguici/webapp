@@ -1,3 +1,7 @@
+<IfModule mime_module>
+  AddHandler application/x-httpd-ea-php80___lsphp .php .php8 .phtml
+</IfModule>
+
 <IfModule mod_rewrite.c>
   # Configure rewrite rules
   Options +FollowSymLinks
@@ -11,14 +15,14 @@
   RewriteRule .* https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
   Header always set Content-Security-Policy "upgrade-insecure-requests;"
 
-  # To force www in the URL
+  # Force www in the URL
   #RewriteCond %{HTTP_HOST} ^[^.]+.[^.]+$
   #RewriteRule .* https://www.%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
 
-  # To remove www in the URL
-  #RewriteCond %{HTTP_HOST} ^www.((?:[^.]+.)+[^.]+)$
-  #RewriteRule .* https://%1 [L,R=301]
+  # Remove www in the URL
+  RewriteCond %{HTTP_HOST} ^www.((?:[^.]+.)+[^.]+)$
+  RewriteRule .* https://%1 [L,R=301]
 
-  # Redirect to the app directory
-  RewriteRule (.*) /app/$1 [L]
+  # Redirect to the public directory
+  RewriteRule (.*) /public/$1 [L]
 </IfModule>

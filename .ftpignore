@@ -1,0 +1,9 @@
+/.git
+.gitignore
+/.gitlab-ci.yml
+.dockerignore
+/cli/deploy
+/.ftpignore
+/ftp.env
+README.md
+Dockerfile

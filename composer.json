@@ -1,14 +1,21 @@
 {
-    "name": "ske/website",
+    "name": "sikessem/sikessem.com",
     "type": "project",
     "description": "The SIKessEm Website",
-    "license": "Apache-2.0",
+    "homepage": "https://sikessem.com",
+    "license": "GPL-3.0-only",
     "keywords": [
+        "sikessem",
         "website",
-        "sikessem"
+        "application"
     ],
+    "scripts": {
+        "app": "php app",
+        "test": "php app test"
+    },
     "authors": [{
         "name": "SIGUI Kessé Emmanuel",
+        "homepage": "https://about.sikessem.com",
         "email": "developer@sikessem.com",
         "role": "Developer"
     }],
@@ -17,22 +24,40 @@
         "issues": "https://github.com/SIKessEm/Website/issues"
     },
     "require": {
-        "php": ">=8.0",
-        "sikessem/encapsulation": "dev-main",
-        "sikessem/events": "dev-main",
-        "sikessem/organizer": "dev-main"
+        "php": ">=8.0"
     },
     "autoload": {
         "psr-4": {
-          "": "lib",
-          "App\\": "src/"
+            "Ske\\IO\\": "bundle/src/core/pkg/io/src/",
+            "Ske\\Cmd\\": "bundle/src/core/pkg/cmd/src/util/",
+            "Ske\\Cgi\\": "bundle/src/core/pkg/app/cgi/src/",
+            "Ske\\Cli\\": "bundle/src/core/pkg/app/cli/src/",
+            "Ske\\": "bundle/src/core/pkg/",
+            "Ske\\Util\\": "bundle/src/core/pkg/",
+            "SIKessEm\\Util\\": "bundle/src/core/app/"
         }
     },
+    "autoload-dev": {
+        "psr-4": {
+            "Ske\\Cmd\\": "bundle/src/core/pkg/cmd/src/unit/",
+            "Ske\\Unit\\": "bundle/src/test/pkg/",
+            "SIKessEm\\Unit\\": "bundle/src/test/app/"
+        }
+    },
+    "replace": {
+        "ske/app": "*",
+        "ske/cgi": "*",
+        "ske/cli": "*",
+        "ske/cmd": "*",
+        "ske/io": "*"
+    },
     "config": {
-        "vendor-dir": "pkg",
+        "vendor-dir": "php_packages",
+        "web-dir": "public",
         "preferred-install": "dist",
         "sort-packages": true
     },
+    "bin": "app",
     "minimum-stability": "dev",
     "prefer-stable": true
 }
