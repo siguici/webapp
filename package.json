@@ -18,6 +18,9 @@
     "website",
     "app"
   ],
+  "bin": {
+    "ske": "./ske"
+  },
   "author": "SIGUI Kessé Emmanuel <developer@sikessem.com>",
   "bugs": {
     "url": "https://gitlab.com/SIKessEm/Website/issues"

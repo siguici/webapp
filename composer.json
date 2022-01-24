@@ -10,8 +10,8 @@
         "application"
     ],
     "scripts": {
-        "app": "php app",
-        "test": "php app test"
+        "start": "tsc -w && sass -w ./bundle/res/themes/:./public/static/ -s compressed --no-source-map",
+        "build": "tsc && sass ./bundle/res/themes/:./public/static/ -s compressed --no-source-map"
     },
     "authors": [{
         "name": "SIGUI Kessé Emmanuel",
@@ -57,7 +57,7 @@
         "preferred-install": "dist",
         "sort-packages": true
     },
-    "bin": "app",
+    "bin": "ske",
     "minimum-stability": "dev",
     "prefer-stable": true
 }
