@@ -3,4 +3,6 @@
 
 $organizer = require_once __DIR__ . DIRECTORY_SEPARATOR . 'bootstrap.php';
 
-require (fn() => __DIR__ . '/bundle/src/main/cli/' . ($argc > 1 ? $argv[1] : $argv[0]) . '.php')();
+$cmd = $argc > 1 || strpos($argv[1], '-') === 0 ? 'app' : $argv[1];
+
+require (fn() => __DIR__ . "/bundle/src/main/cli/$cmd.php")();
