@@ -1,12 +1,9 @@
 <?php namespace Ske;
 
-class Template {
-    public function __construct(protected string $path, protected array $data = [], protected bool $required = true) {}
-
+class Template extends Module {
     public function render(): string {
-        extract($this->data);
         ob_start();
-        $render = (string) ($this->required ? require $this->path : include $this->path);
+        $render = (string) $this->import();
         if (is_numeric($render))
             $render = ob_get_clean();
         else

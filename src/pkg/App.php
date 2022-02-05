@@ -1,6 +1,6 @@
 <?php namespace Ske;
 
-class User {
+class App {
     public function __construct(string $locale) {
         $this->locale = new Locale($locale);
     }

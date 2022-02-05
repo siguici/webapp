@@ -1,13 +1,10 @@
-<?php
-const APP_NAME = 'SIKessEm';
-?>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="<?= val('lang') ?>">
     <head>
         <base href="/"/>
         <meta charset="UTF-8"/>
-        <title><?= APP_NAME ?></title>
-        <meta name="description" content="The <?= APP_NAME ?> Website"/>
+        <title><?= val('app_name') ?></title>
+        <meta name="description" content="<?= val('The %s Website', val('app_name')) ?>"/>
         <style>
         *::before, *, *::after {
             box-sizing: inherit;
@@ -117,12 +114,12 @@ const APP_NAME = 'SIKessEm';
     </head>
     <body>
         <header>
-            <p><a href="/"><img class="ske-logo" src="logo.svg" alt="SIKessEm"/></a></p>
+            <p><a href="/"><img class="ske-logo" src="logo.svg" alt="<?= val('app_name') ?>"/></a></p>
             <?= $main_menu ?>
         </header>
         <main><?= $main_view ?></main>
         <footer>
-            <p class="copyright">Copyright &copy; 2021-<?= date('Y') ?> SIGUI Kessé Emmanuel<br/>All right reseved</p>
+            <p class="copyright"><?= val('Copyright &copy; 2021-%d %s', date('Y'), val('app_author_name')) ?><br/><?= val('All right reseved') ?></p>
         </footer>
     </body>
 </html>

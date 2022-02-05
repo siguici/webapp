@@ -1,1 +1,1 @@
-<p><a class="action link" href="/app">Get started</a></p>
+<p><a class="action link" href="/app"><?= val('Get started') ?></a></p>

@@ -1,6 +1,15 @@
 <?php
 
-use Ske\{Template, Server, User};
+use Ske\{
+    Template,
+    Server,
+    User,
+    App,
+    Locale,
+    Translation,
+    TranslationFile,
+    Translator
+};
 
 require_once __DIR__ . "/php_packages/autoload.php";
 
@@ -11,54 +20,49 @@ function server($root = __DIR__): Server {
     return $server;
 }
 
-function values(string $type): array {
-    static $values;
-    if (!isset($values[$type])) {
-        $values[$type] = ($path = pathOf("res.values.$type", '.json')) ? json_decode(file_get_contents($path), true) : [];
-    }
-    return $values[$type];
-}
-
-function value(string $type, string $name, string ...$data): string {
-    $value = values($type)[$name] ?? $name;
-    if (is_array($value)) {
-        $value = $value[locale()] ?? $value[lang()] ?? $value['_'] ?? $name;
-        if (is_array($value)) {
-            $value = $value[locale()] ?? $value['_'] ?? $name;
-        }
-    }
-    if (!empty($data)) {
-        $value = sprintf($value, ...$data);
-    }
-    return $value;
-}
-
-function text(string $name, string ...$data): string {
-    return value('texts', $name, ...$data);
-}
-
 function user(): User {
     static $user;
     if (!isset($user)) {
-        $user = new User();
+        $user = new User('en-US');
     }
     return $user;
 }
 
-function locale(): string {
-    return user()->locale();
+function app(): App {
+    static $app;
+    if (!isset($app)) {
+        $app = new App('fr-CI');
+    }
+    return $app;
 }
 
-function lang(): string {
-    return user()->lang();
+function vals(Locale ...$locales): Translator {
+    $translations = [];
+    foreach ($locales as $locale) {
+        $language = $locale->getLanguage();
+        $country = $locale->getCountry();
+        if ($file = pathOf("res.values.$language", '.json'))
+            $translations[] = new TranslationFile($language, $file);
+        else
+            $translations[] = new Translation($language);
+        if ($file = pathOf("res.values.$language-$country", '.json'))
+            $translations[] = new TranslationFile("$language-$country", $file);
+        else
+            $translations[] = new Translation("$language-$country");
+    }
+    return new Translator($translations);
 }
 
-function template(string $path, array $data = [], bool $required = true): Template {
-    return new Template($path, $data, $required);
+function val(string $val, string ...$args): string {
+    static $vals;
+    if (!isset($vals)) {
+       $vals = vals(user()->getLocale(), app()->getLocale());
+    }
+    return $vals->translate($val, ...$args);
 }
 
-function render(string $name, array $data = [], bool $required = true): ?string {
-    return ($path = pathOf("res.views.$name", '.php')) ? template($path, $data, $required)->render() : null;
+function tpl(string $path, array $data = [], bool $required = true): Template {
+    return new Template(pathOf("res.views.$path", '.php') ?: $path, $data, $required);
 }
 
 function pathOf(string $name, string $extension = '.php'): ?string {

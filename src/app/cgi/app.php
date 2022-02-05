@@ -1,4 +1,4 @@
-<?= render('layout.main', [
-    'main_view' => render('app'),
-    'main_menu' => render('menu.app'),
+<?= tpl('layout.main', [
+    'main_view' => tpl('app'),
+    'main_menu' => tpl('menu.app'),
 ]);
