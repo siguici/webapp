@@ -1,8 +1,15 @@
 <?php
 
-use Ske\Template;
+use Ske\{Template, Server};
 
 require_once __DIR__ . "/php_packages/autoload.php";
+
+function server(): Server {
+    static $server;
+    if (!isset($server))
+        $server = new Server(__DIR__);
+    return $server;
+}
 
 function values(string $type): array {
     static $values;
@@ -47,7 +54,7 @@ function render(string $name, array $data = [], bool $required = true): ?string 
 }
 
 function pathOf(string $name, string $extension = ''): ?string {
-    return file_exists($path = __DIR__ . DIRECTORY_SEPARATOR . str_replace('.', DIRECTORY_SEPARATOR, $name) . $extension) ? $path : null;
+    return server()->pathOf($name, $extension);
 }
 
 function send(null|int|string $content = null): void {
