@@ -22,15 +22,45 @@ const APP_NAME = 'SIKessEm';
             padding: 0;
             margin: 0;
         }
+
+        a {
+            text-decoration: none;
+        }
+
+        .action {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            cursor: pointer;
+            color: inherit;
+            background: inherit;
+        }
+
+        .action.button {
+            border: 1px solid inherit;
+            border-radius: 0.25rem;
+        }
+
+        .action.link:hover {
+            text-decoration: underline;
+        }
         
         header {
             background-color: #fff;
             color: #000;
             padding: 15px 30px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
         }
         
-        .ske-logo {
+        header .ske-logo {
             height: 30px;
+        }
+
+        header .action.link {
+            color: rgb(0, 127, 128);
+            font-weight: bold;
+            padding-right: 0;
         }
 
         main {
@@ -56,6 +86,23 @@ const APP_NAME = 'SIKessEm';
             padding: 8px;
             line-height: 1.6;
         }
+
+        main > h1 + p + p {
+            margin: 24px 16px;
+        }
+
+        main > h1 + p + p .action {
+            border-color: #FFF;
+            padding: 12px 24px;
+            border-radius: 4px;
+            background-color: #000;
+            color: #FFF;
+        }
+
+        main > h1 + p + p .action:hover {
+            background-color: #FFF;
+            color: #000;
+        }
         
         footer {
             padding: 12px 8px;
@@ -70,11 +117,13 @@ const APP_NAME = 'SIKessEm';
     </head>
     <body>
         <header>
-            <p><a href="/"><img class="ske-logo" src="logo.svg" alt="The SIKessEm logo"/></a></p>
+            <p><a href="/"><img class="ske-logo" src="logo.svg" alt="SIKessEm"/></a></p>
+            <p><a class="action link" href="/app">Get started</a></p>
         </header>
         <main>
-            <h1>Carry out your web, mobile and desktop development projects</h1>
-            <p>SIKessEm is SIGUI Kessé Emmanuel's web application on which you can access its various projects and follow the development of the projects that interest you.</p>
+            <h1>Carry out your development projects or learn to code with SIKessEm</h1>
+            <p>SIKessEm lets you bring your ideas for web, mobile, desktop, or cross-platform software to life</p>
+            <p><a class="action button" href="/app">Get started</a></p>
         </main>
         <footer>
             <p class="copyright">Copyright &copy; 2021-<?= date('Y') ?> SIGUI Kessé Emmanuel<br/>All right reseved</p>
