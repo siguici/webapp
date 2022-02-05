@@ -1,0 +1,1 @@
+<p><a class="action link" href="/app">Get started</a></p>

@@ -118,7 +118,7 @@ const APP_NAME = 'SIKessEm';
     <body>
         <header>
             <p><a href="/"><img class="ske-logo" src="logo.svg" alt="SIKessEm"/></a></p>
-            <p><a class="action link" href="/app">Get started</a></p>
+            <?= $main_menu ?>
         </header>
         <main><?= $main_view ?></main>
         <footer>

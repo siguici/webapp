@@ -1,1 +1,4 @@
-<?= view('main', ['main_view' => view('home')]) ?>
+<?= view('layout.main', [
+    'main_view' => view('home'),
+    'main_menu' => view('menu.home'),
+]);
