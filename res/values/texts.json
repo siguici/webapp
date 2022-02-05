@@ -1,0 +1,19 @@
+{
+  "app_name": "Workspace",
+  "Welcome_to": {
+    "fr": "Bienvenue sur %s",
+    "en": "Welcome to %s"
+  },
+  "Workspace_manager": {
+    "fr": "Gestionnaire d'espace de travail",
+    "en": "Workspace Manager"
+  },
+  "Search_work": {
+    "fr": "Rechercher un travail",
+    "en": "Search a work"
+  },
+  "Trouver": {
+    "fr": "Trouver",
+    "en": "Find"
+  }
+}

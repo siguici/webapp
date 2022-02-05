@@ -1,0 +1,32 @@
+Un site est une collection de pages Web et de contenus associes identifie par un nom de domaine commun et publie sur un serveur
+Un serveur permet de traiter la requete du client et de fournir une reponse en recherchant dans les sites qu'il heberge
+
+Lorsqu'un client demande un document ou une resource le serveur :
+1- recupere le site Web correspondant au nom de domaine (erreur serveur)
+2- recherche la page demande a partir de l'url fournie (erreur client)
+
+NB.: un site web peut avoir des sous domaines qui peuvent etre de nouveau site
+     un site web peut avoir des urls de base pour un groupe de contenu
+
+Un serveur possede un nom d'hote, un port et un dossier racine.
+Un site web est un domaine pointant sur un repertoire d'un serveur avec une url de base
+Un site web est heberge sur un serveur.
+Un serveur peut avoir plusieurs site web
+Un site web peut avoir plusieurs sous-domaines
+Un sous-domaine est une sous-partie d'un site web
+
+
+Un serveur Web a un nom d'hote et un numero de port 
+Un serveur Web contient plusieurs applications Web
+
+Une application Web est un ensemble de sites et de services Web
+Une application Web a un mode (type d'environnement)
+
+Un site Web a un nom de domaine et un dossier racine
+Un site Web est un ensemble de pages Web
+
+Un service Web a une url de base et un fichier principal
+Un service Web un ensemble de contenus
+
+Un contenu est soit une ressource, soit un document
+Un contenu a un chemin d'acces et des options/parametres

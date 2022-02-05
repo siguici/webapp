@@ -1,0 +1,40 @@
+*::before, *, *::after {
+    box-sizing: inherit;
+}
+
+:root {
+    box-sizing: border-box;
+}
+
+body {
+    padding: 0;
+    margin: 0;
+    font-family: Arial, sans-serif;
+    width: 100vw;
+    height: 100vh;
+    display: grid;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+main {
+    display: flex;
+    flex-direction: column;
+    width: max(300px, 30rem);
+    height: max(300px, 30rem);
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    text-align: center;
+}
+
+.field, .button {
+    font-size: 1rem;
+    padding: 8px;
+    border-radius: 4px;
+    display: inline-block;
+}
+
+.button {
+    cursor: pointer;
+}
