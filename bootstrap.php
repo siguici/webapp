@@ -36,7 +36,7 @@ function lang(): string {
     return substr(locale(), 0, 2);
 }
 
-function view (string $name, array $data = []): ?string {
+function render(string $name, array $data = []): ?string {
     $view = null;
     if ($path = pathOf("res.views.$name", '.php')) {
         extract($data);

@@ -1,4 +1,4 @@
-<?= view('layout.main', [
-    'main_view' => view('home'),
-    'main_menu' => view('menu.home'),
+<?= render('layout.main', [
+    'main_view' => render('home'),
+    'main_menu' => render('menu.home'),
 ]);
