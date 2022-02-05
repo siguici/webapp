@@ -53,7 +53,7 @@ function render(string $name, array $data = [], bool $required = true): ?string 
     return ($path = pathOf("res.views.$name", '.php')) ? template($path, $data, $required)->render() : null;
 }
 
-function pathOf(string $name, string $extension = ''): ?string {
+function pathOf(string $name, string $extension = '.php'): ?string {
     return server()->pathOf($name, $extension);
 }
 

@@ -11,15 +11,15 @@ class Server {
         $this->root = realpath($root) . DIRECTORY_SEPARATOR;
     }
 
-    public function pathOf(string $file, string $extension = ''): ?string {
+    public function pathOf(string $file, string $extension = '.php'): ?string {
         return file_exists($path = $this->root . str_replace('.', DIRECTORY_SEPARATOR, $file) . $extension) ? $path : null;
     }
 
     public function process(array $env): void {
         $path = trim(parse_url($env['REQUEST_URI'], PHP_URL_PATH), '/') ?: 'home';
         if (
-            !($file = $this->pathOf("src.app.cgi.$path", '.php')) &&
-            !($file = $this->pathOf("src.app.cgi.$path{$env['REQUEST_METHOD']}", '.php'))
+            !($file = $this->pathOf("src.app.cgi.$path")) &&
+            !($file = $this->pathOf("src.app.cgi.$path{$env['REQUEST_METHOD']}"))
         ) {
             http_response_code(404);
             echo "Document $path not found";
