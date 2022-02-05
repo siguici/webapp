@@ -1,13 +1,13 @@
 <?php
 
-use Ske\{Template, Server};
+use Ske\{Template, Server, User};
 
 require_once __DIR__ . "/php_packages/autoload.php";
 
-function server(): Server {
+function server($root = __DIR__): Server {
     static $server;
     if (!isset($server))
-        $server = new Server(__DIR__);
+        $server = new Server($root);
     return $server;
 }
 
@@ -37,12 +37,20 @@ function text(string $name, string ...$data): string {
     return value('texts', $name, ...$data);
 }
 
+function user(): User {
+    static $user;
+    if (!isset($user)) {
+        $user = new User();
+    }
+    return $user;
+}
+
 function locale(): string {
-    return 'fr_CI';
+    return user()->locale();
 }
 
 function lang(): string {
-    return substr(locale(), 0, 2);
+    return user()->lang();
 }
 
 function template(string $path, array $data = [], bool $required = true): Template {
