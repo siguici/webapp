@@ -1,5 +1,7 @@
 <?php
 
+use Ske\Template;
+
 require_once __DIR__ . "/php_packages/autoload.php";
 
 function values(string $type): array {
@@ -36,18 +38,12 @@ function lang(): string {
     return substr(locale(), 0, 2);
 }
 
-function render(string $name, array $data = []): ?string {
-    $view = null;
-    if ($path = pathOf("res.views.$name", '.php')) {
-        extract($data);
-        ob_start();
-        $view = (string) require $path;
-        if (is_numeric($view))
-            $view = ob_get_clean();
-        else
-            ob_end_clean();
-    }
-    return $view;
+function template(string $path, array $data = [], bool $required = true): Template {
+    return new Template($path, $data, $required);
+}
+
+function render(string $name, array $data = [], bool $required = true): ?string {
+    return ($path = pathOf("res.views.$name", '.php')) ? template($path, $data, $required)->render() : null;
 }
 
 function pathOf(string $name, string $extension = ''): ?string {
