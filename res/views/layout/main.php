@@ -8,6 +8,7 @@
         <style>
         *::before, *, *::after {
             box-sizing: inherit;
+            font: inherit;
         }
 
         :root {
@@ -41,10 +42,26 @@
             text-decoration: underline;
         }
 
+        .field {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            border-radius: 0.25rem;
+        }
+
+        #wrapper {
+            display: grid;
+            width: 100%;
+            height: 100%;
+            grid-template-columns: 1fr;
+            grid-template-rows:  10vh 70vh 20vh;
+            grid-template-areas: "header" "content" "footer";
+        }
+
         header {
+            grid-area: header;
             background-color: #fff;
             color: #000;
-            padding: 15px 30px;
+            padding: 8px 24px;
             display: flex;
             align-items: center;
             justify-content: space-between;
@@ -61,12 +78,11 @@
         }
 
         main {
+            grid-area: content;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            width: 100vw;
-            min-height: 80vh;
             background-color: rgb(0, 127, 128);
             color: #FFF;
             text-align: center;
@@ -102,25 +118,44 @@
         }
 
         footer {
-            padding: 12px 8px;
+            grid-area: footer;
+            padding: 12px 20px;
+            background-color: #000;
+            color: #FFF;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-around;
+            text-align: center;
         }
 
         footer .copyright {
-            text-align: center;
             line-height: 1.5;
-            font-size: 0.85rem;
+            font-size: 0.875rem;
+        }
+
+        footer .settings .field {
+            border-bottom-right-radius: 0;
+            border-top-right-radius: 0;
+        }
+
+        footer .settings .button {
+            border-bottom-left-radius: 0;
+            border-top-left-radius: 0;
         }
         </style>
     </head>
     <body>
-        <header>
-            <p><a href="/"><img class="ske-logo" src="logo.svg" alt="<?= val('app_name') ?>"/></a></p>
-            <?= $main_menu ?>
-        </header>
-        <main><?= $main_view ?></main>
-        <footer>
-            <p class="copyright"><?= val('Copyright &copy; 2021-%d %s', date('Y'), val('app_author_name')) ?><br/><?= val('All right reseved') ?></p>
-            <div><?= tpl('form.set') ?></div>
-        </footer>
+        <div id="wrapper">
+            <header>
+                <p><a href="/"><img class="ske-logo" src="logo.svg" alt="<?= val('app_name') ?>"/></a></p>
+                <?= $main_menu ?>
+            </header>
+            <main><?= $main_view ?></main>
+            <footer>
+                <p class="copyright"><?= val('Copyright &copy; 2021-%d %s', date('Y'), val('app_author_name')) ?><br/><?= val('All right reseved') ?></p>
+                <div class="settings"><?= tpl('form.settings') ?></div>
+            </footer>
+        </div>
     </body>
 </html>
