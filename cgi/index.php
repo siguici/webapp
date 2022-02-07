@@ -1,5 +1,5 @@
 <?php
 
-require_once dirname(__DIR__) . DIRECTORY_SEPARATOR . 'bootstrap.php';
+$server = require_once dirname(__DIR__) . DIRECTORY_SEPARATOR . 'bootstrap.php';
 
-server()->process($_SERVER);
+$server->process($_SERVER);

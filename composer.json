@@ -30,7 +30,10 @@
         "psr-4": {
             "Ske\\App\\": "src/app/",
             "Ske\\Util\\": "src/pkg/"
-        }
+        },
+        "files": [
+            "src/app/utils.php"
+        ]
     },
     "config": {
         "vendor-dir": "php_packages",
