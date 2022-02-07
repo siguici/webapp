@@ -15,6 +15,15 @@ class Server {
         return file_exists($path = $this->root . str_replace('.', DIRECTORY_SEPARATOR, $file) . $extension) ? $path : null;
     }
 
+    protected ?Storage $storage = null;
+
+    public function storage(): Storage {
+        if (null === $this->storage) {
+            $this->storage = new SessionStorage();
+        }
+        return $this->storage;
+    }
+
     public function process(array $env): void {
         $path = trim(parse_url($env['REQUEST_URI'], PHP_URL_PATH), '/') ?: 'home';
         if (

@@ -1,5 +1,7 @@
 <?php namespace Ske\Util;
 
+use Ske\Util\InputVar\InputEnv;
+
 class App {
     public function __construct(string ...$locales) {
         $this->setLocales(...$locales);
@@ -28,4 +30,14 @@ class App {
         }
         return $langs;
     }
+
+    protected Input $input = null;
+
+    public function input(): Input {
+        if (!$this->input) {
+            $this->input = new InputEnv();
+        }
+        return $this->input;
+    }
+
 }
