@@ -28,8 +28,8 @@
     },
     "autoload": {
         "psr-4": {
-            "Ske\\": "src/pkg/",
-            "Ske\\App\\": "src/app/"
+            "Ske\\App\\": "src/app/",
+            "Ske\\Util\\": "src/pkg/"
         }
     },
     "config": {

@@ -1,4 +1,4 @@
-<?php namespace Ske;
+<?php namespace Ske\Util;
 
 class Template extends Module {
     public function render(): string {

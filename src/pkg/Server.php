@@ -1,4 +1,4 @@
-<?php namespace Ske;
+<?php namespace Ske\Util;
 
 class Server {
     public function __construct(string $root) {

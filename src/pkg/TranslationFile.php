@@ -1,4 +1,4 @@
-<?php namespace Ske;
+<?php namespace Ske\Util;
 
 class TranslationFile extends Translation {
     public function __construct(string $name, $file) {

@@ -1,4 +1,4 @@
-<?php namespace Ske;
+<?php namespace Ske\Util;
 
 class Translation {
     public function __construct(protected string $name, array $data = []) {

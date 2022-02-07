@@ -1,6 +1,6 @@
 <?php
 
-use Ske\{
+use Ske\Util\{
     Template,
     Server,
     User,

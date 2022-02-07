@@ -1,4 +1,4 @@
-<?php namespace Ske;
+<?php namespace Ske\Util;
 
 class Module {
     public function __construct(protected string $path, protected array $data = [], protected bool $required = true) {}
