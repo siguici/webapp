@@ -41,14 +41,14 @@ function vals(Locale ...$locales): Translator {
     foreach ($locales as $locale) {
         $language = $locale->getLanguage();
         $country = $locale->getCountry();
-        if ($file = pathOf("res.values.$language", '.json'))
-            $translations[] = new TranslationFile($language, $file);
-        else
-            $translations[] = new Translation($language);
         if ($file = pathOf("res.values.$language-$country", '.json'))
             $translations[] = new TranslationFile("$language-$country", $file);
         else
             $translations[] = new Translation("$language-$country");
+        if ($file = pathOf("res.values.$language", '.json'))
+            $translations[] = new TranslationFile($language, $file);
+        else
+            $translations[] = new Translation($language);
     }
     return new Translator($translations);
 }
