@@ -120,6 +120,7 @@
         <main><?= $main_view ?></main>
         <footer>
             <p class="copyright"><?= val('Copyright &copy; 2021-%d %s', date('Y'), val('app_author_name')) ?><br/><?= val('All right reseved') ?></p>
+            <div><?= tpl('form.set') ?></div>
         </footer>
     </body>
 </html>

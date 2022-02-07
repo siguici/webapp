@@ -31,7 +31,7 @@ function user(): User {
 function app(): App {
     static $app;
     if (!isset($app)) {
-        $app = new App('fr-CI');
+        $app = new App('fr-CI', 'en-US');
     }
     return $app;
 }
@@ -56,7 +56,7 @@ function vals(Locale ...$locales): Translator {
 function val(string $val, string ...$args): string {
     static $vals;
     if (!isset($vals)) {
-       $vals = vals(user()->getLocale(), app()->getLocale());
+       $vals = vals(user()->getLocale(), ...app()->getLocales());
     }
     return $vals->translate($val, ...$args);
 }
