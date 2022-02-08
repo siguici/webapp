@@ -35,17 +35,11 @@ class RequestLine
         return $this;
     }
 
-    protected string $version = 'HTTP/1.1';
-
-    public function setVersion(string $version): self {
-        if (!preg_match('/^HTTP\/[0-9](?:\.[0-9])?$/', $version)) {
-            throw new \InvalidArgumentException("Invalid version $version given");
-        }
-        $this->version = $version;
-        return $this;
+    public function getUrl(): Url {
+        return $this->url;
     }
 
-    public function getVersion(): string {
-        return $this->version;
+    public function __toString(): string {
+        return $this->getMethod() . ' ' . $this->getUrl() . ' ' . $this->getVersion() . PHP_EOL;
     }
 }

@@ -170,9 +170,12 @@ class ResponseStatus {
         'Custom' => self::CUSTOM_CODES,
     ];
 
-    public function __construct(int $code, ?string $reason = null) {
+    use Version;
+
+    public function __construct(int $code, ?string $reason = null, string $version = 'HTTP/1.1')
         $this->setCode($code);
         $this->setReason($reason);
+        $this->setVersion($version);
     }
 
     protected int $code;
@@ -222,6 +225,6 @@ class ResponseStatus {
     }
 
     public function __toString(): string {
-        return $this->getCode() . ' ' . $this->getReason() . PHP_EOL;
+        return $this->getVersion() . ' ' . $this->getCode() . ' ' . $this->getReason() . PHP_EOL;
     }
 }
