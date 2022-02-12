@@ -3,6 +3,6 @@
 /node_modules/
 composer.lock
 package-lock.json
-/public/static/
+yarn.lock
 /env.ini
 /ftp.ini

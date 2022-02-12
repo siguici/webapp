@@ -1,4 +1,3 @@
-#!/usr/bin/env php
 <?php
 
 $c = 1;

@@ -23,6 +23,6 @@
   RewriteCond %{HTTP_HOST} ^www.((?:[^.]+.)+[^.]+)$
   RewriteRule .* https://%1 [L,R=301]
 
-  # Redirect to the public directory
-  RewriteRule (.*) /public/$1 [L]
+  # Redirect to the web directory
+  RewriteRule (.*) /web/$1 [L]
 </IfModule>

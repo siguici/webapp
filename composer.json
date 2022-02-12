@@ -1,8 +1,8 @@
 {
-    "name": "sikessem/sikessem.com",
+    "name": "ske/app",
     "type": "project",
-    "description": "The SIKessEm Website",
-    "homepage": "https://sikessem.com",
+    "description": "A flexible framework for building web apps",
+    "homepage": "https://github.com/SIKessEm/App#readme",
     "license": "GPL-3.0-only",
     "keywords": [
         "sikessem",
@@ -10,8 +10,8 @@
         "application"
     ],
     "scripts": {
-        "start": "tsc -w && sass -w ./bundle/res/themes/:./public/static/ -s compressed --no-source-map",
-        "build": "tsc && sass ./bundle/res/themes/:./public/static/ -s compressed --no-source-map"
+        "app": "./ske app",
+        "css": "sass ./bundle/res/themes/:./public/static/ -s compressed --no-source-map"
     },
     "authors": [{
         "name": "SIGUI Kessé Emmanuel",
@@ -20,44 +20,29 @@
         "role": "Developer"
     }],
     "support": {
-        "source": "https://github.com/SIKessEm/Website",
-        "issues": "https://github.com/SIKessEm/Website/issues"
+        "source": "https://github.com/SIKessEm/App",
+        "issues": "https://github.com/SIKessEm/App/issues"
     },
     "require": {
         "php": ">=8.0"
     },
     "autoload": {
         "psr-4": {
-            "Ske\\IO\\": "bundle/src/core/pkg/io/src/",
-            "Ske\\Cmd\\": "bundle/src/core/pkg/cmd/src/util/",
-            "Ske\\Cgi\\": "bundle/src/core/pkg/app/cgi/src/",
-            "Ske\\Cli\\": "bundle/src/core/pkg/app/cli/src/",
-            "Ske\\": "bundle/src/core/pkg/",
-            "Ske\\Util\\": "bundle/src/core/pkg/",
-            "SIKessEm\\Util\\": "bundle/src/core/app/"
+            "Ske\\App\\": "app/src/core/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Ske\\Cmd\\": "bundle/src/core/pkg/cmd/src/unit/",
-            "Ske\\Unit\\": "bundle/src/test/pkg/",
-            "SIKessEm\\Unit\\": "bundle/src/test/app/"
+            "Ske\\Test\\": "app/src/test/"
         }
-    },
-    "replace": {
-        "ske/app": "*",
-        "ske/cgi": "*",
-        "ske/cli": "*",
-        "ske/cmd": "*",
-        "ske/io": "*"
     },
     "config": {
         "vendor-dir": "php_packages",
-        "web-dir": "public",
+        "web-dir": "web",
         "preferred-install": "dist",
         "sort-packages": true
     },
-    "bin": "ske",
+    "bin": "./ske",
     "minimum-stability": "dev",
     "prefer-stable": true
 }
