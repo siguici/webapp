@@ -24,7 +24,8 @@
         "issues": "https://github.com/SIKessEm/App/issues"
     },
     "require": {
-        "php": ">=8.0"
+        "php": ">=8.0",
+        "organizer/organizer": "dev-main"
     },
     "autoload": {
         "psr-4": {
