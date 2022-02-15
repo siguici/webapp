@@ -1,6 +1,6 @@
 <?php use Ske\Util\{
     Template,
-    Server,
+    Http\Server,
     User,
     App,
     Locale,
@@ -37,11 +37,11 @@ function vals(Locale ...$locales): Translator {
     foreach ($locales as $locale) {
         $language = $locale->getLanguage();
         $country = $locale->getCountry();
-        if ($file = pathOf("res.values.$language-$country", '.json'))
+        if ($file = pathOf("app.res.values.$language-$country", '.json'))
             $translations[] = new TranslationFile("$language-$country", $file);
         else
             $translations[] = new Translation("$language-$country");
-        if ($file = pathOf("res.values.$language", '.json'))
+        if ($file = pathOf("app.res.values.$language", '.json'))
             $translations[] = new TranslationFile($language, $file);
         else
             $translations[] = new Translation($language);
@@ -58,7 +58,7 @@ function val(string $val, string ...$args): string {
 }
 
 function tpl(string $path, array $data = [], bool $required = true): Template {
-    return new Template(pathOf("res.views.$path", '.php') ?: $path, $data, $required);
+    return new Template(pathOf("app.res.views.$path", '.php') ?: $path, $data, $required);
 }
 
 function pathOf(string $name, string $extension = '.php'): ?string {
@@ -80,8 +80,8 @@ function script(string $name): string {
 }
 
 function url(string $name, string $extension): ?string {
-    if (!pathOf("cgi.$name", $extension)) {
-        throw new \RuntimeException("Unknown $name ($extension) in " . pathOf('cgi'));
+    if (!pathOf("web.$name", $extension)) {
+        throw new \RuntimeException("Unknown $name ($extension) in " . pathOf('web'));
     }
     return '/' . str_replace('.', '/', $name) . $extension;
 }

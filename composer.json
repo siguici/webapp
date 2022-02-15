@@ -1,5 +1,5 @@
 {
-    "name": "sikessem/sikessem.com",
+    "name": "ske/app",
     "type": "project",
     "description": "The SIKessEm Website",
     "homepage": "https://sikessem.com",
@@ -10,8 +10,8 @@
         "application"
     ],
     "scripts": {
-        "app": "node main.js",
-        "css": "sass ./res/styles/:./cgi/static/ -s compressed --no-source-map"
+        "app": "./ske app",
+        "css": "sass ./app/res/styles/:./web/static/ -s compressed --no-source-map"
     },
     "authors": [{
         "name": "SIGUI Kessé Emmanuel",
@@ -28,20 +28,20 @@
     },
     "autoload": {
         "psr-4": {
-            "Ske\\App\\": "src/app/",
-            "Ske\\Util\\": "src/pkg/"
+            "Ske\\App\\": "app/src/core/",
+            "Ske\\Util\\": "pkg/util/"
         },
         "files": [
-            "src/app/utils.php"
+            "app/src/main/cfg/helper.php"
         ]
     },
     "config": {
+        "web-dir": "web",
         "vendor-dir": "php_packages",
-        "web-dir": "cgi",
         "preferred-install": "dist",
         "sort-packages": true
     },
-    "bin": "cli/ske",
+    "bin": "./ske",
     "minimum-stability": "dev",
     "prefer-stable": true
 }

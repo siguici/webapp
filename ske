@@ -4,7 +4,7 @@
 $organizer = require_once __DIR__ . DIRECTORY_SEPARATOR . 'bootstrap.php';
 
 $name = $argc <= 1 || strpos($argv[1], '-') === 0 ? 'app' : $argv[1];
-if (!is_file($file = __DIR__ . "/bundle/src/main/cli/$name.php")) {
+if (!is_file($file = __DIR__ . "/app/src/main/cli/$name.php")) {
     fwrite(STDERR, "Command $name not found" . PHP_EOL);
     exit(1);
 }

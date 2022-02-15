@@ -1,28 +1,32 @@
 <IfModule mime_module>
-  AddHandler application/x-httpd-ea-php80___lsphp .php .php8 .phtml
+    AddHandler application/x-httpd-ea-php80___lsphp .php .php8 .phtml
+</IfModule>
+
+<IfModule mod_autoindex.c>
+    Options -Indexes
 </IfModule>
 
 <IfModule mod_rewrite.c>
-  # Configure rewrite rules
-  Options +FollowSymLinks
-  RewriteEngine On
-  RewriteBase /
+    # Configure rewrite rules
+    Options +FollowSymLinks
+    RewriteEngine On
+    RewriteBase /
 
-  # Force the domain to serve securely
-  RewriteCond %{HTTP:X-Forwarded-Proto} !https
-  RewriteCond %{SERVER_PORT} 80
-  RewriteCond %{HTTPS} off
-  RewriteRule .* https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
-  Header always set Content-Security-Policy "upgrade-insecure-requests;"
+    # Force the domain to serve securely
+    RewriteCond %{HTTP:X-Forwarded-Proto} !https
+    RewriteCond %{SERVER_PORT} 80
+    RewriteCond %{HTTPS} off
+    RewriteRule .* https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+    Header always set Content-Security-Policy "upgrade-insecure-requests;"
 
-  # Force www in the URL
-  #RewriteCond %{HTTP_HOST} ^[^.]+.[^.]+$
-  #RewriteRule .* https://www.%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+    # Force www in the URL
+    #RewriteCond %{HTTP_HOST} ^[^.]+.[^.]+$
+    #RewriteRule .* https://www.%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
 
-  # Remove www in the URL
-  RewriteCond %{HTTP_HOST} ^www.((?:[^.]+.)+[^.]+)$
-  RewriteRule .* https://%1 [L,R=301]
+    # Remove www in the URL
+    RewriteCond %{HTTP_HOST} ^www.((?:[^.]+.)+[^.]+)$
+    RewriteRule .* https://%1 [L,R=301]
 
-  # Redirect to the public directory
-  RewriteRule (.*) /cgi/$1 [L]
+    # Redirect to the public directory
+    RewriteRule (.*) /web/$1 [L]
 </IfModule>

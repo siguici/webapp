@@ -7,15 +7,27 @@ class Response {
         $this->setBody($body);
     }
 
-    protected Status $status;
+    protected ResponseStatus $status;
+
+    public function setStatus(int $statusCode, ?string $reasonPhrase = null): self {
+        $this->status = new ResponseStatus($statusCode, $reasonPhrase);
+        return $this;
+    }
 
     public function getStatus(): Status {
         return $this->status;
     }
 
-    public function setStatus(int $statusCode, ?string $reasonPhrase = null): self {
-        $this->status = new Status($statusCode, $reasonPhrase);
-        return $this;
+    public function getCode(): int {
+        return $this->status->getCode();
+    }
+
+    public function getReason(): string {
+        return $this->status->getReason();
+    }
+
+    public function getType(): string {
+        return $this->status->getType();
     }
 
     protected ?Headers $headers = null;
@@ -32,17 +44,6 @@ class Response {
         else {
             $this->headers->add($headers);
         }
-        return $this;
-    }
-
-    protected Body $body;
-
-    public function getBody(): Body {
-        return $this->body;
-    }
-
-    public function setBody(string $body): self {
-        $this->body = new Body($body);
         return $this;
     }
 }

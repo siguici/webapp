@@ -4,14 +4,14 @@
   "description": "The SIKessEm Website",
   "homepage": "https://sikessem.com",
   "license": "GPL-3.0-only",
-  "main": "public/index.js",
+  "main": "main.js",
   "scripts": {
-    "app": "node main.js",
-    "css": "sass ./res/styles/:./cgi/static/ -s compressed --no-source-map"
+    "app": "./ske app",
+    "css": "sass ./app/res/styles/:./web/static/ -s compressed --no-source-map"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://gitlab.com/SIKessEm/Website.git"
+    "url": "git+https://github.com/SIKessEm/Website.git"
   },
   "keywords": [
     "sikessem",
@@ -23,7 +23,7 @@
   },
   "author": "SIGUI Kessé Emmanuel <developer@sikessem.com>",
   "bugs": {
-    "url": "https://gitlab.com/SIKessEm/Website/issues"
+    "url": "https://github.com/SIKessEm/Website/issues"
   },
   "dependencies": {
     "sass": "^1.49.0",

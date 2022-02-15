@@ -31,7 +31,7 @@ class App {
         return $langs;
     }
 
-    protected Input $input = null;
+    protected ?Input $input = null;
 
     public function input(): Input {
         if (!$this->input) {
@@ -39,5 +39,4 @@ class App {
         }
         return $this->input;
     }
-
 }
