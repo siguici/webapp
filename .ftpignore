@@ -5,5 +5,4 @@
 /cli/deploy
 /.ftpignore
 /ftp.env
-README.md
 Dockerfile
