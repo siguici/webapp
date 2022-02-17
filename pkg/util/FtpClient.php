@@ -2,15 +2,18 @@
 
 class FtpClient {
     public function __construct(public Ftp $ftp, protected string $cwd) {
-        $this->setCwd($cwd);
         $this->ignore = new Dotignore();
+        $this->setCwd($cwd);
     }
 
     public Dotignore $ignore;
 
     public function setCwd(string $cwd): self {
-        chdir($this->cwd = $cwd);
-        if (is_file($ftpIgnore = $cwd . '.ftpignore'))
+        if (!is_dir($cwd)) {
+            throw new \InvalidArgumentException("$cwd is not a directory");
+        }
+        chdir($this->cwd = realpath($cwd) . DIRECTORY_SEPARATOR);
+        if (is_file($ftpIgnore = $this->cwd . '.ftpignore'))
             $this->ignore->loadFile($ftpIgnore);
         return $this;
     }
@@ -25,9 +28,12 @@ class FtpClient {
         $this->putFile($this->getCwd());
     }
 
-    function putFile(?string $file, int $mode = FTP_ASCII): void {
-        if (!file_exists($file) || !str_starts_with($file = realpath($file), $cwd = $this->getCwd()))
-            throw new \Exception("Invalid file $file");
+    function putFile(string $file, int $mode = FTP_ASCII): void {
+        if (!file_exists($file))
+            throw new \Exception("$file does not exist");
+
+        if (!str_starts_with($file = realpath($file), $cwd = realpath($this->getCwd())))
+            throw new \Exception("$file is not included in $cwd");
 
         $path = substr($file, strlen($cwd));
         $path = str_replace('\\', '/', $path);
@@ -35,6 +41,7 @@ class FtpClient {
             $path = '/';
 
         if ($this->ignore->isIgnored($path)) {
+            echo "Ignoring $path" . PHP_EOL;
             return;
         }
 
@@ -44,6 +51,7 @@ class FtpClient {
             if (!$ftp->mlsd($path)) {
                 if (!$ftp->mkdir($path))
                     throw new \Exception("Failed to create directory $path");
+                echo "Created directory $path" . PHP_EOL;
             }
 
             if (is_array($files = scandir($file))) {
@@ -54,7 +62,8 @@ class FtpClient {
         }
         else {
             if (!$ftp->put($path, $file, $mode))
-                throw new \Exception("Failed to upload $file");
+                throw new \Exception("Failed to put $file");
+            echo "Put $file" . PHP_EOL;
         }
     }
 
