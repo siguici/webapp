@@ -1,60 +1,59 @@
 <?php namespace Ske\Util;
 
 class Command {
-    public function __construct(string $name, string $description = '', string $usage = '') {
-        $this->setName($name);
-        $this->setDescription($description);
-        $this->setUsage($usage);
+    public function __construct(string $root, string $name, string $description, string $usage, string $version = '0.0.0') {
+        parent::__construct($name, $description, $usage);
+        $this->setRoot($root);
+        $this->setVersion($version);
     }
 
-    protected string $name;
+    protected string $root;
 
-    public function setName(string $name): self {
-        if (empty($name)) {
-            throw new \Exception('Command name cannot be empty');
+    public function setRoot(string $root) {
+        $this->root = $root;
+    }
+
+    public function getRoot() {
+        return $this->root;
+    }
+
+    protected string $version;
+
+    public function setVersion(string $version) {
+        $this->version = $version;
+    }
+
+    public function getVersion() {
+        return $this->version;
+    }
+
+    public function execute(int $argc, array $argv) {
+        if (PHP_SAPI !== 'cli' && PHP_SAPI !== 'phpdbg') {
+            fwrite(STDERR, 'This script must be run from the command line.' . PHP_EOL);
+            exit(1);
         }
-        if (!is_file($name)) {
-            throw new \Exception("No such file $name");
+
+        if (0 === $argc) {
+            throw new \InvalidArgumentException('No command specified');
         }
-        $this->name = $name;
-        return $this;
-    }
 
-    public function getName(): string {
-        return $this->name;
-    }
+        if (1 === $argc) {
+            fwrite(STDOUT, $this->home() . PHP_EOL);
+            exit;
+        }
 
-    protected string $description;
+        if (2 > $argc) {
+            fwrite(STDERR, $this->help() . PHP_EOL);
+            exit(1);
+        }
 
-    public function setDescription(string $description): self {
-        $this->description = $description;
-        return $this;
-    }
+        $command = array_shift($argv);
+        $argc--;
 
-    public function getDescription(): string {
-        return $this->description;
-    }
 
-    protected string $usage;
-
-    public function setUsage(string $usage): self {
-        $this->usage = $usage;
-        return $this;
-    }
-
-    public function getUsage(): string {
-        return $this->usage;
-    }
-
-    public function home(): string {
-        return "{$this->getName()} {$this->getDescription()}" . PHP_EOL . $this->help();
-    }
-
-    public function help(): string {
-        return "Usage: {$this->getUsage()}";
-    }
-
-    public function parse(int $argc, array $argv): bool {
-        return true;
+        if (!is_file($file  = __DIR__ . "/app/src/cli/{$command['name']}.php")) {
+            fwrite(STDERR, 'Command not found: ' . $command['name'] . PHP_EOL);
+            exit(1);
+        }
     }
 }

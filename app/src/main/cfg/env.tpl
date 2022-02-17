@@ -6,8 +6,8 @@ APP_KEY=${app_key}
 APP_DEBUG=${app_debug}
 
 [fs]
-DRIVER={fs_driver}
-ROOT={fs_root}
+DRIVER=${fs_driver}
+ROOT=${fs_root}
 
 [db]
 DIALECT=${db_dialect}

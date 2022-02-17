@@ -7,54 +7,60 @@ class CommandPrompt {
         $this->cd($pwd);
     }
 
-    public function run(int $argc, array $argv): void {
+    public function input() {
+        return $this->input;
+    }
+
+    public function output() {
+        return $this->output;
+    }
+
+    public function error() {
+        return $this->error;
+    }
+
+    public function run(int $argc, array $argv, ): void {
         if ($argc !== count($argv)) {
-            throw new \UnexectedArgumentCountException('Unexpected argument count');
+            throw new \UnexpectedArgumentCountException('Unexpected argument count');
         }
         if (0 === $argc) {
             return;
         }
-        $command = array_shift($argv);
-        $this->execute($command, $argv);
+        $this->processFile($argv[0] . '.php', $argc, $argv);
     }
 
-    protected function execute(string $command, array $argv): void {
-        $command = $this->resolveCommand($command);
-        $this->executeCommand($command, $argv);
-    }
-
-    protected function resolveCommand(string $command): string {
-        $command = $this->resolveAlias($command);
-        $command = $this->resolvePath($command);
-        return $command;
-    }
-
-    protected function resolveAlias(string $command): string {
-        $aliases = $this->getAliases();
-        if (isset($aliases[$command])) {
-            $command = $aliases[$command];
+    protected function processFile(string $file, int $argc, array $argv): void {
+        $file = $this->resolvePath($file);
+        if (\is_dir($file)) {
+            $this->cd($file);
+            $this->run($argc, $argv);
+            return;
         }
-        return $command;
-    }
-
-    protected function resolvePath(string $command): string {
-        $path = $this->getPath();
-        if (file_exists($path . $command)) {
-            $command = $path . $command;
+        if (\is_readable($file)) {
+            require $file;
+            return;
         }
-        return $command;
+        $this->executeFile($file, $argc, $argv);
     }
 
-    protected function executeCommand(string $command, array $argv): void {
-        $command = $this->resolveCommand($command);
-        $argv = $this->resolveArguments($argv);
-        $this->execute($command, $argv);
+    protected function resolvePath($file): string {
+        return file_exists($file) ? realpath($file) : $this->pwd() . DIRECTORY_SEPARATOR . $file;
     }
 
-    protected function resolveArguments(array $argv): array {
-        $argv = array_map(function($arg) {
-            return escapeshellarg($arg);
-        }, $argv);
-        return $argv;
+
+    protected function executeFile(string $file, int $argc, array $argv): void {
+        array_slice($argv, 0, $argc);
+        $this->executeCommand([
+            PHP_BINARY,
+            $file,
+            ...array_map(fn($arg) => escapeshellarg($arg), $argv)
+        ]);
+    }
+
+    protected function executeCommand(array $args): void {
+        exec(implode(' ', $args), $output, $return);
+        $std = $return === 0 ? $this->output() : $this->error();
+        fwrite($std, implode(PHP_EOL, $output));
+        exit($return);
     }
 }

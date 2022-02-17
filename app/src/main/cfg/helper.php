@@ -85,3 +85,79 @@ function url(string $name, string $extension): ?string {
     }
     return '/' . str_replace('.', '/', $name) . $extension;
 }
+
+function parse_cmd(int $argc, array $argv): array {
+    if ($argc !== count($argv)) {
+        throw new \UnexpectedArgumentCountException('Wrong count of arguments');
+    }
+
+    if ($argc === 0) {
+        throw new \InvalidArgumentException('No arguments given');
+    }
+
+    $name = array_shift($argv);
+    $args = [];
+    $options = [];
+
+    $arg_key = null;
+    $option_key = null;
+    $options_checked = false;
+    while ($arg = array_shift($argv)) {
+        if ($arg == '--' || $arg == '-') {
+            $options_checked = true;
+            if ($arg_key) {
+                $args[$arg_key] = null;
+                $arg_key = null;
+            }
+            if ($option_key) {
+                $options[$option_key] = true;
+                $option_key = null;
+            }
+            continue;
+        }
+        if ($options_checked || $arg[0] != '-') {
+            if ($option_key) {
+                $options[$option_key] = $arg;
+                $option_key = null;
+            }
+            elseif ($arg_key) {
+                $args[$arg_key] = $arg;
+                $arg_key = null;
+            }
+            else {
+                $arg_key = $arg;
+            }
+            continue;
+        }
+        if (preg_match('/^--([^-]+)=(.+)$/', $arg, $matches)) {
+            $options[$matches[1]] = $matches[2];
+        }
+        elseif (preg_match('/^--([^-]+)$/', $arg, $matches)) {
+            $options[$matches[1]] = true;
+        }
+        elseif (preg_match('/^-([^-]+)$/', $arg, $matches)) {
+            if ($option_key) {
+                $options[$option_key] = $matches[1];
+                $option_key = null;
+            }
+            else {
+                $option_key = $matches[1];
+            }
+        }
+        else {
+            throw new \InvalidArgumentException("Unknown option: $arg");
+        }
+    }
+
+    if ($arg_key) {
+        $args[$arg_key] = null;
+        unset($arg_key);
+    }
+
+    if ($option_key) {
+        $options[$option_key] = true;
+        unset($option_key);
+    }
+
+    return ['name' => $name, 'options' => $options, 'args' => $args];
+}

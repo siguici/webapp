@@ -7,12 +7,16 @@ trait FileSystem {
         return $this->pwd;
     }
 
-    public function cd(string $dir, bool $force = false): string {
+    public function cd(string $dir, bool $force = false, bool $change = false): string {
         if (!is_dir($dir)) {
             throw new \InvalidArgumentException("No such directory $dir");
         }
         if (!is_readable($dir)) {
             throw new \InvalidArgumentException("Cannot read directory $dir");
+        }
+        $dir = realpath($dir) . \DIRECTORY_SEPARATOR;
+        if ($change) {
+            chdir($dir);
         }
         return $this->pwd = $dir;
     }
