@@ -14,16 +14,16 @@ $dotignore = new Dotignore([
     '/tmp/',
     '/logs/',
     '/cache/',
-    '/config/',
+    '/config/*',
     '.gitignore',
-    '.gitmodules',
+    '!/config/.gitmodules',
     '.editorconfig',
 ]);
 
 $toIgnore = [
     '.gitignore',
     '/.git',
-    '.gitmodules',
+    '/config/.gitmodules/koffi',
     '/vendor',
 ];
 
