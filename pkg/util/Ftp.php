@@ -2,18 +2,18 @@
 
 class Ftp {
     public function __construct(string $host, int $port = 21, int $timeout = 90, bool $secure = false) {
-        $secure ? $this->connectSecure($host, $port, $timeout) : $this->connect($host, $port, $timeout);
+        $secure ? $this->sslConnect($host, $port, $timeout) : $this->connect($host, $port, $timeout);
     }
 
     protected $connection;
 
     public function connect(string $host, int $port = 21, int $timeout = 90): void {
-        if (!$this->connection = ftp_connect($host, $port, $timeout))
+        if (!($this->connection = ftp_connect($host, $port, $timeout)))
             throw new \Exception("Failed to connect to $host:$port");
     }
 
     public function sslConnect(string $host, int $port = 21, int $timeout = 90): void {
-        if ($this->connection = ftp_ssl_connect($host, $port, $timeout))
+        if (!($this->connection = ftp_ssl_connect($host, $port, $timeout)))
             throw new \Exception("SSL connection failure to $host:$port");
     }
 
@@ -25,7 +25,7 @@ class Ftp {
             throw new \Exception("Invalid FTP command: $name");
 
         $name = 'ftp_' . strtolower($name);
-        return $name(...$arguments);
+        return $name($this->connection, ...$arguments);
     }
 
     public function close() {
