@@ -1,0 +1,32 @@
+{
+  "name": "sikessem.com",
+  "version": "0.0.0",
+  "description": "The SIKessEm Website",
+  "homepage": "https://sikessem.com",
+  "license": "GPL-3.0-only",
+  "main": "main.js",
+  "scripts": {
+    "app": "./ske app",
+    "css": "sass ./app/res/styles/:./web/static/ -s compressed --no-source-map"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SIKessEm/Website.git"
+  },
+  "keywords": [
+    "sikessem",
+    "website",
+    "app"
+  ],
+  "bin": {
+    "ske": "./ske"
+  },
+  "author": "SIGUI Kessé Emmanuel <developer@sikessem.com>",
+  "bugs": {
+    "url": "https://github.com/SIKessEm/Website/issues"
+  },
+  "dependencies": {
+    "sass": "^1.49.0",
+    "typescript": "^4.5.5"
+  }
+}
