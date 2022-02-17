@@ -1,6 +1,6 @@
 <?php namespace Ske\Util;
 
-class Dotignore {
+class Dotignore implements \IteratorAggregate, \Countable, \ArrayAccess {
     public function __construct(array $patterns = []) {
         $this->setPatterns($patterns);
     }
@@ -74,5 +74,37 @@ class Dotignore {
         }
         $this->setPatterns(\file($file, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES));
         return $this;
+    }
+
+    public function getIterator(): \Traversable {
+        return new \ArrayIterator($this->patterns);
+    }
+
+    public function count(): int {
+        return \count($this->patterns);
+    }
+
+    public function offsetExists(mixed $offset): bool {
+        return isset($this->patterns[$offset]);
+    }
+
+    public function offsetGet(mixed $offset): mixed {
+        return $this->patterns[$offset];
+    }
+
+    public function offsetSet(mixed $offset, mixed $value): void {
+        $this->patterns[$offset] = $value;
+    }
+
+    public function offsetUnset(mixed $offset): void {
+        unset($this->patterns[$offset]);
+    }
+
+    public function __toString(): string {
+        return implode(PHP_EOL, $this->patterns);
+    }
+
+    public function __debugInfo(): array {
+        return $this->patterns;
     }
 }
