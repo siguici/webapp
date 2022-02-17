@@ -1,44 +1,63 @@
 <?php namespace Ske\Util;
 
 class Dotignore {
-    public function __construct(array $lines = []) {
-        $this->setList($lines);
+    public function __construct(array $patterns = []) {
+        $this->setPatterns($patterns);
     }
 
-    protected array $lines = [];
+    protected array $patterns = [];
 
-    public function setList(array $lines) {
-        $this->lines = [];
-        foreach ($lines as $line) {
-            $this->addLine($line);
+    public function setPatterns(array $patterns) {
+        $this->patterns = [];
+        foreach ($patterns as $pattern) {
+            $this->addPattern($pattern);
         }
     }
 
-    public function addLines(array $lines) {
-        foreach ($lines as $line) {
-            $this->addLine($line);
+    public function addPatterns(array $patterns) {
+        foreach ($patterns as $pattern) {
+            $this->addPattern($pattern);
         }
     }
 
-    public function addLine($line) {
-        $this->lines[] = $line;
+    public function addPattern($pattern) {
+        $this->patterns[] = $pattern;
     }
 
-    public function getList(): array {
-        return $this->lines;
+    public function getPatterns(): array {
+        return $this->patterns;
     }
 
     public function isIgnored(string $name): bool {
-        foreach ($this->getList() as $line) {
-            $line = rtrim($line, '/');
-            if (str_starts_with($line, '/')) {
-                if (fnmatch($line, $name))
-                    return true;
+        $name = str_replace('\\', '/', $name);
+        $name = rtrim($name, '/');
+        $ignored = false;
+        foreach ($this->getPatterns() as $pattern) {
+            if (str_starts_with($pattern, '#')) {
+                continue;
             }
-            elseif (fnmatch($line, basename($name)))
-                return true;
+            if (str_starts_with($pattern, '!')) {
+                if ($this->match(substr($pattern, 1), $name)) {
+                    $ignored = false;
+                }
+                continue;
+            }
+            if (str_starts_with($pattern, '/')) {
+                if ($this->match($pattern, $name))
+                    $ignored = true;
+                continue;
+            }
+            if ($this->match($pattern, basename($name)))
+                $ignored = true;
         }
-        return false;
+        return $ignored;
+    }
+
+    public static function match(string $pattern, string $name): bool {
+        if (str_ends_with($pattern, '/')) {
+            return self::match(substr($pattern, 0, -1), $name) || self::match($pattern . '*', $name);
+        }
+        return fnmatch($pattern, $name);
     }
 
     public function loadFile(string $file): self {
@@ -53,7 +72,7 @@ class Dotignore {
         if (!\is_readable($file)) {
             throw new \InvalidArgumentException("$file is not readable");
         }
-        $this->setList(\file($file, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES));
+        $this->setPatterns(\file($file, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES));
         return $this;
     }
 }
