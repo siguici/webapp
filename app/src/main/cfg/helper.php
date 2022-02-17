@@ -6,7 +6,9 @@
     Locale,
     Translation,
     TranslationFile,
-    Translator
+    Translator,
+    Dotenv,
+    Env
 };
 
 function server(?string $root = null): Server {
@@ -84,6 +86,22 @@ function url(string $name, string $extension): ?string {
         throw new \RuntimeException("Unknown $name ($extension) in " . pathOf('web'));
     }
     return '/' . str_replace('.', '/', $name) . $extension;
+}
+
+function env(?string $name = null, mixed $default = null): mixed {
+    static $env;
+    if (!isset($env)) {
+        $dotenv = new Dotenv(dirname(__DIR__, 2));
+        $env = $dotenv->load('env.ini');
+    }
+
+    if (!isset($name))
+        return $env;
+
+    if (isset($env[$name]))
+        return $env[$name];
+
+    return $env[$name] = getenv($name) ?? $_ENV[$name] ?? $_SERVER[$name] ?? $default;
 }
 
 function parse_cmd(int $argc, array $argv): array {
