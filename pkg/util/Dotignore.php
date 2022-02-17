@@ -21,15 +21,16 @@ class Dotignore {
     }
 
     public function addLine($line) {
-        $this->list[] = $line;
+        $this->lines[] = $line;
     }
 
     public function getList(): array {
         return $this->lines;
     }
 
-    public function contains(string $name): bool {
+    public function isIgnored(string $name): bool {
         foreach ($this->getList() as $line) {
+            $line = rtrim($line, '/');
             if (str_starts_with($line, '/')) {
                 if (fnmatch($line, $name))
                     return true;

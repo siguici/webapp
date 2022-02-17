@@ -34,7 +34,7 @@ class FtpClient {
         if (empty($path))
             $path = '/';
 
-        if ($this->ignore->contains($path)) {
+        if ($this->ignore->isIgnored($path)) {
             return;
         }
 
