@@ -21,10 +21,10 @@ class Ftp {
         if (!$this->connection)
             throw new \Exception("FTP connection not established");
 
-        if (!preg_match('/^login|pasv|chdir|cdup|chmod|delete|rename|rmdir|mkdir|nlist|pwd|systype|site|size|mdtm|chgrp|chown|get|put|rawlist|raw$/i', $name))
+        $name = 'ftp_' . strtolower($name);
+        if (!function_exists($name))
             throw new \Exception("Invalid FTP command: $name");
 
-        $name = 'ftp_' . strtolower($name);
         return $name($this->connection, ...$arguments);
     }
 
