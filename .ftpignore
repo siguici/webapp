@@ -6,3 +6,8 @@
 /ftp.env
 Dockerfile
 /.idea/
+/node_modules/
+/package-lock.json
+/yarn.lock
+*.scss
+*.ts
