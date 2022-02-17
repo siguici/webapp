@@ -11,12 +11,12 @@ class Env implements \ArrayAccess, \IteratorAggregate, \Countable {
 
     public function set(string $key, mixed $value): mixed {
         $value = match (true) {
-             in_array($value, ['null', 'nil', 'none']) => null,
-             in_array($value, ['true', 'on', 'yes']) => true,
-             in_array($value, ['false', 'off', 'no']) => false,
-             is_numeric($value) => is_int(strpos($value, '.')) ? (float) $value : (int) $value,
-             default => $value,
-         };
+            in_array($value, ['null', 'Null', 'NULL', 'nil', 'Nil', 'NIL', 'none', 'NONE'], true) => null,
+            in_array($value, ['true', 'True', 'TRUE', 'on', 'On', 'ON', 'yes', 'Yes', 'YES', 't', 'T', 'y', 'Y', '1'], true) => true,
+            in_array($value, ['false', 'False', 'FALSE', 'off', 'Off', 'OFF', 'no', 'No', 'NO', 'f', 'F', 'n', 'N', '0'], true) => false,
+            is_numeric($value) => is_int(strpos($value, '.')) ? (float) $value : (int) $value,
+            default => $value,
+        };
         return $this->options[$key] = $value;
     }
 
