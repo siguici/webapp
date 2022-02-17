@@ -28,7 +28,7 @@ class Dotignore {
         return $this->lines;
     }
 
-    public function ignored(string $name): bool {
+    public function contains(string $name): bool {
         foreach ($this->getList() as $line) {
             if (str_starts_with($line, '/')) {
                 if (fnmatch($line, $name))
