@@ -1,6 +1,8 @@
 <?php namespace Ske\Util;
 
 class FtpClient {
+    use EventEmitter;
+
     public function __construct(public Ftp $ftp, protected string $cwd) {
         $this->ignore = new Dotignore();
         $this->setCwd($cwd);
@@ -25,46 +27,57 @@ class FtpClient {
     public function run(int $argc, array $argv): void {
         if (!$this->ftp->pasv(true))
             throw new \Exception('Failed to enable passive mode');
-        $this->putFile($this->getCwd());
+        $this->putDir($this->getCwd());
     }
 
     function putFile(string $file, int $mode = FTP_ASCII): void {
         if (!file_exists($file))
-            throw new \Exception("$file does not exist");
-
-        if (!str_starts_with($file = realpath($file), $cwd = realpath($this->getCwd())))
-            throw new \Exception("$file is not included in $cwd");
-
-        $path = substr($file, strlen($cwd));
-        $path = str_replace('\\', '/', $path);
-        if (empty($path))
-            $path = '/';
+            $this->do('error', new \RuntimeException("$file does not exist"));
 
         if ($this->ignore->isIgnored($path)) {
-            echo "Ignoring $path" . PHP_EOL;
+            $this->do('ignore', $path);
             return;
         }
 
         $ftp = $this->ftp;
 
-        if (is_dir($file)) {
-            if (!$ftp->mlsd($path)) {
-                if (!$ftp->mkdir($path))
-                    throw new \Exception("Failed to create directory $path");
-                echo "Created directory $path" . PHP_EOL;
-            }
+        if (is_dir($file))
+            $this->putDir($path, $file, $mode);
+        else $ftp->put($path, $file, $mode) ?
+            $this->do('put', $path, $file, $mode) :
+            $this->do('error', new \RuntimeException("Failed to put $file"));
+    }
 
-            if (is_array($files = scandir($file))) {
-                foreach ($files as $name)
-                    if ($name !== '.' && $name !== '..')
-                        $this->putFile($file . DIRECTORY_SEPARATOR . $name);
+    protected function putDir(string $dir, int $mode = FTP_ASCII): void {
+        if (!is_dir($dir))
+            $this->do('error', new \RuntimeException("$dir is not a directory"));
+
+        $path = $this->getPathOf($dir);
+
+        $ftp = $this->ftp;
+        if (!$ftp->mlsd($path)) {
+            $ftp->mkdir($path) ? $this->do('mkdir', $path) : $this->do('error', new \RuntimeException("Failed to create $path"));
+        }
+        else $this->do('mlsd', $path);
+
+        if (is_array($files = scandir($dir))) {
+            foreach ($files as $file) {
+                if ($file === '.' || $file === '..')
+                    continue;
+                $this->putFile($file . DIRECTORY_SEPARATOR . $name);
             }
         }
-        else {
-            if (!$ftp->put($path, $file, $mode))
-                throw new \Exception("Failed to put $file");
-            echo "Put $file" . PHP_EOL;
-        }
+    }
+
+    public function getPathOf(string $path): string {
+        if (!str_starts_with($path = realpath($path), $cwd = realpath($this->getCwd())))
+            $this->do('error', new \RuntimeException("$path is not included in $cwd"));
+
+        $path = substr($path, strlen($cwd));
+        $path = str_replace('\\', '/', $path);
+        if (empty($path))
+            $path = '/';
+        return $path;
     }
 
     protected int $timeout = 60;
