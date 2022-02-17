@@ -1,8 +1,8 @@
-/.git
+/.git/
 .gitignore
 /.gitlab-ci.yml
 .dockerignore
-/cli/deploy
 /.ftpignore
 /ftp.env
 Dockerfile
+/.idea/
