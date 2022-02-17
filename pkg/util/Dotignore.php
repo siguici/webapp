@@ -1,6 +1,6 @@
 <?php namespace Ske\Util;
 
-class IgnoreList {
+class Dotignore {
     public function __construct(array $lines = []) {
         $this->setList($lines);
     }
