@@ -29,7 +29,7 @@ class Dotenv {
             throw new \InvalidArgumentException("Cannot read file $name in $this->root");
         }
         $env = new Env();
-        foreach ((array) @parse_ini_file($file, true, INI_SCANNER_TYPED) as $key => $value) {
+        foreach ((array) parse_ini_file($file, true, INI_SCANNER_TYPED) as $key => $value) {
             if (is_array($value)) {
                 foreach ($value as $k => $v) {
                     $env->set(strtoupper($key . '_' . $k), $v);
