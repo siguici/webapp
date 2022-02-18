@@ -28,11 +28,11 @@ trait EventEmitter {
 
     public function do(string $event, mixed ...$data): self {
         if (!isset($this->eventListeners[$event])) {
-            return null;
+            return $this;
         }
 
         foreach ($this->eventListeners[$event] as $key => $eventListener) {
-            $this->eventsListened[$event][$key][] = $eventEventListener(...$data);
+            $this->eventsListened[$event][$key][] = $eventListener(...$data);
         }
 
         return $this;
