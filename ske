@@ -6,5 +6,5 @@ use Ske\Util\CommandPrompt;
 require_once __DIR__ . DIRECTORY_SEPARATOR . 'bootstrap.php';
 
 $console = new CommandPrompt(__DIR__ . '/app/src/main/cli');
-array_shift($argv);
-$console->run(--$argc, $argv);
+
+$console->run(--$argc, array_slice($argv, 1));
