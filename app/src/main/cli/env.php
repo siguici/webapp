@@ -1,73 +1,61 @@
 <?php
 
-use Ske\Util\Env;
+use Ske\Util\{Env, Template};
 
 $command = parse_cmd($argc, $argv);
-$__options = $command['options'];
+$options = $command['options'];
 
-$__env = new Env($command['args']);
-$__env_file = $__options['name'] ?? $__options['n'] ?? '.env';
-if (is_bool($__env_file)) {
+$env = new Env($command['args']);
+$env_file = $options['name'] ?? $options['n'] ?? '.env';
+if (is_bool($env_file)) {
     throw new \RuntimeException('Missing file name');
 }
 
-$__env_mode = $__options['mode'] ?? $__options['m'] ?? 'dev';
-if (is_bool($__env_mode)) {
+$env_mode = $options['mode'] ?? $options['m'] ?? 'dev';
+if (is_bool($env_mode)) {
     throw new \RuntimeException('Missing mode name');
 }
 
-$__force = $__options['force'] ?? $__options['f'] ?? false;
+$force = $options['force'] ?? $options['f'] ?? false;
 
-$__dotenv_file = getcwd() . DIRECTORY_SEPARATOR . $__env_file;
+$dotenv_file = getcwd() . DIRECTORY_SEPARATOR . $env_file;
 
-if (is_file($__dotenv_file) && !$__force) {
-    return parse_ini_file($__dotenv_file, true, INI_SCANNER_TYPED);
+if (is_file($dotenv_file) && !$force) {
+    return parse_ini_file($dotenv_file, true, INI_SCANNER_TYPED);
 }
 
-print "Writing $__dotenv_file ... " . PHP_EOL;
+print "Writing $dotenv_file ... " . PHP_EOL;
 
-$__env_tpl_file = dirname(__DIR__) . '/cfg/env.tpl';
-if (!is_file($__env_tpl_file)) {
-    throw new \RuntimeException("Missing env template file ($__env_tpl_file)");
+$env_tpl_file = dirname(__DIR__) . '/cfg/env.tpl';
+if (!is_file($env_tpl_file)) {
+    throw new \RuntimeException("Missing env template file ($env_tpl_file)");
 }
 
-$__env_cfg_file = dirname(__DIR__) . '/cfg/env.php';
-if (!is_file($__env_cfg_file)) {
-    throw new \RuntimeException("Missing env configuration file ($__env_cfg_file)");
+$env_cfg_file = dirname(__DIR__) . '/cfg/env.php';
+if (!is_file($env_cfg_file)) {
+    throw new \RuntimeException("Missing env configuration file ($env_cfg_file)");
 }
 
-$__env_cfg = require $__env_cfg_file;
-if (!is_array($__env_cfg)) {
-    throw new \RuntimeException("Invalid env configuration file ($__env_cfg_file)");
+$env_cfg = require $env_cfg_file;
+if (!is_array($env_cfg)) {
+    throw new \RuntimeException("Invalid env configuration file ($env_cfg_file)");
 }
 
-foreach ($__env_cfg as $__key => $__value) {
-    if (is_int($__key)) {
-        $__key = $__value;
-        $__value = null;
+foreach ($env_cfg as $key => $value) {
+    if (is_int($key)) {
+        $key = $value;
+        $value = null;
     }
-    $__value = $__env[$__key] ?? $__value;
-    while (!isset($__value)) {
-        $__value = readline(ucfirst(str_replace('_', ' ', $__key)) . ': ');
+    $value = $env[$key] ?? $value;
+    while (!isset($value)) {
+        $value = readline(ucfirst(str_replace('_', ' ', $key)) . ': ');
     }
-    $__env_cfg[$__key] = $__value;
+    $env_cfg[$key] = $value;
 }
 
-$__env_tpl = file_get_contents($__env_tpl_file);
-if (
-    preg_match_all('/\$\{([a-zA-Z_\x80-\xff][a-zA-Z0-9_\x80-\xff]*)\}/', $__env_tpl, $__env_tpl_vars) ||
-    preg_match_all('/\$([a-zA-Z_\x80-\xff][a-zA-Z0-9_\x80-\xff]*)/', $__env_tpl, $__env_tpl_vars)
-) {
-    foreach ($__env_tpl_vars[1] as $__env_tpl_var_key => $__env_tpl_var_name) {
-        if (!isset($__env_cfg[$__env_tpl_var_name])) {
-            throw new \RuntimeException("Missing env configuration variable ($__env_tpl_var_name)");
-        }
-        $__env_tpl = str_replace($__env_tpl_vars[0][$__env_tpl_var_key], $__env_cfg[$__env_tpl_var_name], $__env_tpl);
-    }
-}
-
-file_put_contents($__dotenv_file, $__env_tpl);
+$template = new Template($env_tpl_file, $env_cfg);
+$template->save($dotenv_file);
 
 print "Done." . PHP_EOL;
 
-return parse_ini_string($__env_tpl, true, INI_SCANNER_TYPED);
+return parse_ini_file($env_tpl_file, true, INI_SCANNER_TYPED);
