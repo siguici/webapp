@@ -8,8 +8,8 @@ class Template extends Module {
             preg_match_all('/\$([a-zA-Z_\x80-\xff][a-zA-Z0-9_\x80-\xff]*)/', $content, $varsNames)
         ) {
             foreach ($varsNames[1] as $nameKey => $varName) {
-                if ($this->varExists($varName)) {
-                    throw new \RuntimeException("Missing env configuration variable ($varName)");
+                if (!$this->varExists($varName)) {
+                    throw new \RuntimeException("Missing variable ($varName)");
                 }
                 $content = str_replace($varsNames[0][$nameKey], $this->getVar($varName), $content);
             }
