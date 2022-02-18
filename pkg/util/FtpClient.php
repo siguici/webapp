@@ -28,11 +28,14 @@ class FtpClient {
         if (!$this->ftp->pasv(true))
             throw new \Exception('Failed to enable passive mode');
         $this->putDir($this->getCwd());
+        $this->do('run', $argc, $argv);
     }
 
     function putFile(string $file, int $mode = FTP_ASCII): void {
         if (!file_exists($file))
             $this->do('error', new \RuntimeException("$file does not exist"));
+
+        $path = $this->getPathOf($file);
 
         if ($this->ignore->isIgnored($path)) {
             $this->do('ignore', $path);
@@ -42,7 +45,7 @@ class FtpClient {
         $ftp = $this->ftp;
 
         if (is_dir($file))
-            $this->putDir($path, $file, $mode);
+            $this->putDir($file, $mode);
         else $ftp->put($path, $file, $mode) ?
             $this->do('put', $path, $file, $mode) :
             $this->do('error', new \RuntimeException("Failed to put $file"));
@@ -55,16 +58,16 @@ class FtpClient {
         $path = $this->getPathOf($dir);
 
         $ftp = $this->ftp;
-        if (!$ftp->mlsd($path)) {
+        if (!($list = $ftp->mlsd($path))) {
             $ftp->mkdir($path) ? $this->do('mkdir', $path) : $this->do('error', new \RuntimeException("Failed to create $path"));
         }
-        else $this->do('mlsd', $path);
+        else $this->do('mlsd', $path, $list);
 
         if (is_array($files = scandir($dir))) {
             foreach ($files as $file) {
                 if ($file === '.' || $file === '..')
                     continue;
-                $this->putFile($file . DIRECTORY_SEPARATOR . $name);
+                $this->putFile($dir . DIRECTORY_SEPARATOR . $file);
             }
         }
     }
