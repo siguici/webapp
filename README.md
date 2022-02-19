@@ -1,3 +1,9 @@
+<p align="center">
+  <a href="https://sikessem.com" title="Visit the SIKessEm website"><img src="web/logo.svg" alt="SIKessEm logo"/></a>
+</p>
+
+***
+
 # The SIKessEm Website
 [SIKessEm](https://sikessem.com) is [SIGUI Kessé Emmanuel](https://about.sikessem.com)'s website on which he presents his development projects (Web, Mobile and Desktop), offers innovative and creative solutions, shares his know-how and discusses with members of his community.
 
