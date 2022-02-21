@@ -29,7 +29,7 @@
     "autoload": {
         "psr-4": {
             "Ske\\App\\": "app/src/core/",
-            "Ske\\Util\\": "pkg/util/"
+            "Ske\\Util\\": "pkg/ske/util/"
         },
         "files": [
             "app/src/main/cfg/helper.php"
