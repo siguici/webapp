@@ -4,3 +4,6 @@
 /.dockerfile
 /php_packages/
 /node_modules/
+/.idea/
+/env.ini
+/.env
