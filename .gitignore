@@ -3,4 +3,5 @@
 /composer.lock
 /yarn.lock
 /env.ini
+/.env
 /.idea/
