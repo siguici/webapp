@@ -1,36 +1,33 @@
 <?php
 
-use Ske\Util\Dotignore;
+use Ske\Util\{Dotignore, Ignore};
 
-$dotignore = new Dotignore([
-    '/.git/',
-    '/.idea/',
+$include = [
+   '.git/',
+   '/.idea/',
+   '/config/.gitmodules/',
+   '!.editorconfig',
+];
+
+$exclude = [
+    '!.gitignore',
+    '/config/.gitmodules/foo/bar',
     '/vendor/',
-    '/node_modules/',
-    '/bower_components/',
-    '/build/',
-    '/dist/',
-    '/tests/',
-    '/tmp/',
-    '/logs/',
-    '/cache/',
-    '/config/*',
-    '.gitignore',
-    '!/config/.gitmodules',
-    '.editorconfig',
-]);
+];
 
 $toIgnore = [
-    '.gitignore',
-    '/.git',
-    '/config/.gitmodules/koffi',
-    '/vendor',
+    '.git',
+    '/.idea/',
+    '/config/.gitmodules/',
+    '/config/.gitmodules/foo/baz',
 ];
 
 $ignored = [];
 
+$ignore = new Ignore($include, $exclude);
+
 foreach ($toIgnore as $file) {
-    if (!$dotignore->isIgnored($file)) {
+    if (!$ignore->isIgnored($file)) {
         fwrite(STDOUT, "$file is not ignored" . PHP_EOL);
     }
     else {
