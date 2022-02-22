@@ -11,11 +11,12 @@
     Env
 };
 
-function server(?string $root = null): Server {
-    static $server;
-    if (!isset($server))
-        $server = new Server($root);
-    return $server;
+function root(): string {
+	return dirname(__DIR__, 4);
+}
+
+function pathOf(string $file, string $extension = '.php'): ?string {
+	return file_exists($path = root() . str_replace('.', DIRECTORY_SEPARATOR, $file) . $extension) ? $path : null;
 }
 
 function user(): User {
@@ -63,10 +64,6 @@ function tpl(string $path, array $data = [], bool $required = true): Template {
     return new Template(pathOf("app.res.views.$path", '.php') ?: $path, $data, $required);
 }
 
-function pathOf(string $name, string $extension = '.php'): ?string {
-    return server()->pathOf($name, $extension);
-}
-
 function send(null|int|string $content = null): void {
     if (!isset($content))
         exit;
@@ -91,7 +88,7 @@ function url(string $name, string $extension): ?string {
 function env(?string $name = null, mixed $default = null): mixed {
     static $env;
     if (!isset($env)) {
-        $dotenv = new Dotenv(dirname(__DIR__, 2));
+        $dotenv = new Dotenv(root());
         $env = $dotenv->load('env.ini');
     }
 
