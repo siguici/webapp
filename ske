@@ -5,7 +5,7 @@ use Ske\Util\Application;
 
 require_once __DIR__ . DIRECTORY_SEPARATOR . 'bootstrap.php';
 
-$app = new Application(__DIR__ . '/app/src/main/cli', env());
+$app = new Application(basename(__FILE__), __DIR__ . '/app/src/main/cli', env());
 
 $result = $app->run($_SERVER);
 
