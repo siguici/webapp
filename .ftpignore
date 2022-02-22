@@ -4,6 +4,7 @@
 /.gitlab-ci.yml
 .dockerignore
 .ftpignore
+.editorconfig
 /ftp.env
 Dockerfile
 /.idea/
