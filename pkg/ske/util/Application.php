@@ -52,9 +52,15 @@ class Application {
 
 	public function run(array $args): Result {
 		if ('cli' === PHP_SAPI || 'phpdbg' === PHP_SAPI) {
+			$this->getInputStream()->open('php://stdin', 'r');
+			$this->getOutputStream()->open('php://stdout', 'w');
+			$this->getErrorStream()->open('php://stderr', 'w');
 			$message = 'Run from command line' . PHP_EOL;
 		}
 		else {
+			$this->getInputStream()->open('php://input', 'r');
+			$this->getOutputStream()->open('php://output', 'w');
+			$this->getErrorStream()->open('php://output', 'w');
 			$message = 'Run from web <br/>';
 		}
 		return new Result(0, $message);
