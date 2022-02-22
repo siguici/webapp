@@ -1,7 +1,7 @@
 <?php namespace Ske\Util\Http;
 
 class Server {
-    public function __construct(string $root) {
+    public function __construct(string $root, string $host, int $port) {
         if (!is_dir($root)) {
             throw new \Exception("$root is not a directory");
         }
@@ -9,13 +9,13 @@ class Server {
             throw new \Exception("$root is not readable");
         }
         $this->root = realpath($root) . DIRECTORY_SEPARATOR;
-    }
-
-    public function pathOf(string $file, string $extension = '.php'): ?string {
-        return file_exists($path = $this->root . str_replace('.', DIRECTORY_SEPARATOR, $file) . $extension) ? $path : null;
+		$this->host = $host;
+		$this->port = $port;
     }
 
     public function process(array $env): void {
+    	die(print_r($env, true));
+
         $path = trim(parse_url($env['REQUEST_URI'], PHP_URL_PATH), '/') ?: 'home';
         if (
             !($file = $this->pathOf("app.src.main.cgi.$path")) &&

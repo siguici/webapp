@@ -3,7 +3,7 @@
 class Application {
 	use StdStreams;
 
-	public function __construct(string $dir, array|Env $env = [], $inputStream = null, $outputStream = null, $errorStream = null) {
+	public function __construct(string $dir, array|Env $env = [], ?Input $inputStream = null, ?Output $outputStream = null, ?Output $errorStream = null) {
 		$this->setDir($dir);
 		$this->setEnv($env);
 		$this->setInputStream($inputStream);
@@ -72,8 +72,8 @@ class Application {
 	}
 
 	public function __destruct() {
-		$this->closeInputStream();
-		$this->closeOutputStream();
-		$this->closeErrorStream();
+		$this->getInputStream()->close();
+		$this->getOutputStream()->close();
+		$this->getErrorStream()->close();
 	}
 }
