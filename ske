@@ -1,10 +1,12 @@
 #!/usr/bin/env php
 <?php
 
-use Ske\Util\CommandPrompt;
+use Ske\Util\Application;
 
 require_once __DIR__ . DIRECTORY_SEPARATOR . 'bootstrap.php';
 
-$console = new CommandPrompt(__DIR__ . '/app/src/main/cli');
+$app = new Application(__DIR__ . '/app/src/main/cli', env());
 
-$console->run(--$argc, array_slice($argv, 1));
+$result = $app->run($_SERVER);
+
+$app->send($result);
