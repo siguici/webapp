@@ -1,8 +1,9 @@
 /.git/
 .gitignore
+.gitattributes
 /.gitlab-ci.yml
 .dockerignore
-/.ftpignore
+.ftpignore
 /ftp.env
 Dockerfile
 /.idea/
