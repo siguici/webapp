@@ -83,7 +83,7 @@ class Application {
 				--$argc;
 			}
 
-			return $this->processCommand($name, $argc, $argv);
+			$order = new CommandParser($argc, $argv);
 		}
 		else {
 			$this->getInputStream()->open('php://input', 'r');
@@ -100,17 +100,14 @@ class Application {
 			$uri = $args['REQUEST_URI'] ??= $_SERVER['REQUEST_URI'] ??= '/';
 
 			$url = $scheme . '://' . ($username ? $username . ':' . $password . '@' : '') . $host . ($port ? ':' . $port : '') . $uri;
-			return $this->processRequest($name, $method, $url);
+			$order = new RequestParser($method, $url);
 		}
-		return new Result(0, $message);
+		return $this->execute($name, $order);
 	}
 
-	public function processCommand(string $name, int $argc, array $argv): Result {
-		return new Result(0, "Command $name is running in CLI mode with $argc arguments: " . implode(' ', $argv) . PHP_EOL);
-	}
-
-	public function processRequest(string $name, string $method, string $url): Result {
-		return new Result(0, "<p>Request $name is running in CGI mode with HTTP $method to $url</p>");
+	public function execute(string $name, OrderParser $order): Result {
+		$order->parse();
+		return $order->parsed() ? $order->execute() : new Result(1, 'Invalid order');
 	}
 
 	public function write(Result $result): int|false {
