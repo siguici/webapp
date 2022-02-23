@@ -90,16 +90,24 @@ class Application {
 			$this->getOutputStream()->open('php://output', 'w');
 			$this->getErrorStream()->open('php://output', 'w');
 
-			$name = $args['SERVER_NAME'] ??= $_SERVER['SERVER_NAME'] ??= 'localhost';
-			$host = $args['HTTP_HOST'] ??= $_SERVER['HTTP_HOST'] ??= '127.0.0.1';
+			$name = $args['SERVER_NAME'] ??= $_SERVER['SERVER_NAME'] ??= $this->getName();
+			$server = $args['HTTP_HOST'] ??= $_SERVER['HTTP_HOST'] ??= 'localhost';
+			$host = $args['SERVER_ADDR'] ??= $_SERVER['SERVER_ADDR'] ??= '127.0.0.1';
 			$port = $args['SERVER_PORT'] ??= $_SERVER['SERVER_PORT'] ??= 80;
 			$username = $args['PHP_AUTH_USER'] ??= $_SERVER['PHP_AUTH_USER'] ??= '';
 			$password = $args['PHP_AUTH_PW'] ??= $_SERVER['PHP_AUTH_PW'] ??= '';
 			$scheme = $args['REQUEST_SCHEME'] ??= $_SERVER['REQUEST_SCHEME'] ??= 'http';
 			$method = $args['REQUEST_METHOD'] ??= $_SERVER['REQUEST_METHOD'] ??= 'GET';
 			$uri = $args['REQUEST_URI'] ??= $_SERVER['REQUEST_URI'] ??= '/';
+			$uri = preg_replace('/\/+/', '/', $uri);
+			$uri = trim($uri, '/');
 
-			$url = $scheme . '://' . ($username ? $username . ':' . $password . '@' : '') . $host . ($port ? ':' . $port : '') . $uri;
+			preg_match("/^(?P<base>(?:[^.]+\.)*)(?P<name>{$name})$/", $server, $matches);
+			$base = $matches['base'] ??= '';
+			$base = str_replace('.', '/', $base);
+			$base = '/' . $base;
+
+			$url = $scheme . '://' . ($username ? $username . ':' . $password . '@' : '') . $host . ($port ? ':' . $port : '') . $base . $uri;
 			$order = new RequestParser($method, $url);
 		}
 		return $this->execute($name, $order);
