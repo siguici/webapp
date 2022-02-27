@@ -1,5 +1,5 @@
 {
-    "name": "ske/app",
+    "name": "sikessem/sikessem.com",
     "type": "project",
     "description": "A flexible framework for building web apps",
     "homepage": "https://github.com/SIKessEm/App#readme",
@@ -24,8 +24,7 @@
         "issues": "https://github.com/SIKessEm/App/issues"
     },
     "require": {
-        "php": ">=8.0",
-        "organizer/organizer": "dev-main"
+        "php": ">=8.0"
     },
     "autoload": {
         "psr-4": {
