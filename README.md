@@ -12,7 +12,7 @@ Visit [the SIKessEm website](https://app.sikessem.com) to [sign up](https://app.
 
 ## Installation
 Use Composer to install the library with this command:
-`composer require ske/app`
+`composer create-project sikessem/sikessem.com`
 Or [click here to download it directly in ZIP format ](https://github.com/SIKessEm/Website/archive/refs/heads/main.zip)
 
 ## Requirements
@@ -50,7 +50,7 @@ Refer to [the development section](#development) before making any changes. Than
 ## Contact links
 Contact us [on our website](https://sikessem.com/contact) or [by email](mailto:support@sikessem.com) for more details.
 
-## Useful links 
+## Useful links
 [LinkedIn](https://linkedin.com/in/SIKessEm) | [GitLab](https://gitlab.com/SIKessEm) | [GitHub](https://github.com/SIKessEm) | [npm](https://npmjs.org/~sikessem) | [Composer - Packagist](https://packagist.org/users/SIKessEm) | [Twitter](https://twitter.com/Ske_SIKessEm)
 
 ## Security Reports
