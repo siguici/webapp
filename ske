@@ -1,12 +1,10 @@
 #!/usr/bin/env php
 <?php
 
-use Ske\Util\Application;
+use App\Cli as CliApp;
 
 require_once __DIR__ . DIRECTORY_SEPARATOR . 'bootstrap.php';
 
-$app = new Application(basename(__FILE__), __DIR__ . '/app/src/main/cli', env());
+$app = new CliApp(__FILE__, env());
 
-$result = $app->run($_SERVER);
-
-$app->send($result);
+$app->run($_SERVER);

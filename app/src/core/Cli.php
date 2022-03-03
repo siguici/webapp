@@ -1,7 +1,14 @@
 <?php namespace App;
 
-class Cli extends Ske\Cli\App
-	public function __construct(array|Env $env) {
-		parent::__construct(dirname(__DIR__) . '/main/cli'), $env);
+use Ske\Cli\App as SkeCliApp;
+use Ske\Util\Env;
+
+class Cli extends SkeCliApp {
+	public function __construct(string $name, array|Env $env) {
+		parent::__construct($name, dirname(__DIR__) . '/main/cli', $env);
+	}
+
+	public function init() {
+
 	}
 }

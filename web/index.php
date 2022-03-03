@@ -1,11 +1,10 @@
 <?php
 
-use Ske\Util\Application;
+use App\Cgi as CgiApp;
 
 require_once dirname(__DIR__) . DIRECTORY_SEPARATOR . 'bootstrap.php';
 
-$app = new Application(env('WEB_HOST', 'localhost'), dirname(__DIR__) . '/app/src/main/cgi', env());
+$app = new CgiApp($_SERVER['SERVER_NAME'], env());
 
-$result = $app->run($_SERVER);
+$app->run($_SERVER);
 
-$app->send($result);
