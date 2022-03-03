@@ -3,6 +3,10 @@
 trait EventEmitter {
     protected array $eventListeners = [];
 
+	public function todo(): array {
+		return $this->eventListeners;
+	}
+
     public function on(string $event, callable $eventListener): self {
         if (!isset($this->eventListeners[$event])) {
             $this->eventListeners[$event] = [];
