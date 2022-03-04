@@ -28,9 +28,14 @@
     },
     "autoload": {
         "psr-4": {
-            "Ske\\App\\": "app/src/core/",
-            "Ske\\Util\\": "pkg/ske/util/"
-        },
+            "App\\": "app/src/core/",
+		  	"Cli\\": "app/src/main/cli/",
+		  	"Cgi\\": "app/src/main/cgi/",
+            "Ske\\Util\\": "pkg/ske/util/",
+		  	"Ske\\Bundle\\": "pkg/ske/bundle/",
+			"Ske\\Widget\\": "pkg/ske/widget/",
+			"Ske\\": "pkg/ske/core/"
+		},
         "files": [
             "app/src/main/cfg/helper.php"
         ]
