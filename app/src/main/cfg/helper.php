@@ -12,7 +12,7 @@
 };
 
 function root(): string {
-	return dirname(__DIR__, 4);
+	return dirname(__DIR__, 4) . DIRECTORY_SEPARATOR;
 }
 
 function pathOf(string $file, string $extension = '.php'): ?string {
