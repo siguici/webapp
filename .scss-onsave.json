@@ -1,6 +1,6 @@
 {
-	"inputDir": "source/main/cgi/static/",
-	"outputDir": "public/",
+	"inputDir": "app/src/scripts/",
+	"outputDir": "client/",
 	"useNpmSass": true,
 	"style":"compressed",
 	"sourcemap":"none",

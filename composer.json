@@ -11,7 +11,7 @@
     ],
     "scripts": {
         "app": "./ske app",
-        "css": "sass ./app/res/styles/:./web/static/ -s compressed --no-source-map"
+        "css": "sass ./app/res/styles/:./client/static/ -s compressed --no-source-map"
     },
     "authors": [{
         "name": "SIGUI Kessé Emmanuel",
@@ -41,7 +41,7 @@
         ]
     },
     "config": {
-        "web-dir": "web",
+        "web-dir": "client",
         "vendor-dir": "php_packages",
         "preferred-install": "dist",
         "sort-packages": true
