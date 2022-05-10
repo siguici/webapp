@@ -4,10 +4,10 @@
   "description": "The SIKessEm Website",
   "homepage": "https://sikessem.com",
   "license": "GPL-3.0-only",
-  "main": "main.js",
+  "main": "architect.js",
   "scripts": {
-    "app": "./ske app",
-    "css": "sass ./app/res/styles/:./web/static/ -s compressed --no-source-map"
+    "app": "./server/run app",
+    "css": "sass ./res/styles/:./client/static/ -s compressed --no-source-map"
   },
   "repository": {
     "type": "git",
@@ -16,12 +16,9 @@
   "keywords": [
     "sikessem",
     "website",
-    "app"
+    "application"
   ],
-  "bin": {
-    "ske": "./ske"
-  },
-  "author": "SIGUI Kessé Emmanuel <developer@sikessem.com>",
+  "author": "SIGUI Kessé Emmanuel <contact@sikessem.com>",
   "bugs": {
     "url": "https://github.com/SIKessEm/Website/issues"
   },

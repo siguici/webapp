@@ -1,0 +1,47 @@
+#!/usr/bin/env php
+<?php
+
+$autoloader = require_once __DIR__ . DIRECTORY_SEPARATOR . 'autoload.php';
+
+if (__FILE__ !== ($file = realpath(array_shift($args = &$argv)))) {
+    fprintf(
+        STDERR,
+        'Unable to run %s from %s.',
+        __FILE__,
+        $file
+    );
+    exit(1);
+}
+
+if (!count($args)) {
+	fprintf(
+		STDERR,
+		'Usage: %s <command> [<arguments>...]' . PHP_EOL,
+		basename($file)
+	);
+	exit(1);
+}
+
+$path = array_shift($args);
+
+if (is_file($file = $app_root . DIRECTORY_SEPARATOR . $path) || is_file($file = $app_root . DIRECTORY_SEPARATOR . "$path.php")) {
+    $ext = pathinfo($file, PATHINFO_EXTENSION);
+    if ('php' === $ext) {
+		$argc = count($args);
+        require $file;
+        exit(0);
+    }
+
+    exec(PHP_BINARY . ' ' . $file . ' ' . implode(' ', $args), $output, $status);
+    foreach ($output as $line) {
+        fwrite($status ? STDERR : STDOUT, $line . PHP_EOL);
+    }
+    exit($status);
+}
+
+$pathlen = strlen($path);
+$names = scandir($app_root);
+$names = array_filter($names, fn($name) => '.' !== $name[0] && !is_dir($app_root . DIRECTORY_SEPARATOR . $name) && substr_compare($name, $path, -$pathlen, $pathlen) >= 0);
+$names = array_map(fn($name) => "  command '$name'", $names);
+fwrite(STDERR, "Command '$path' not found" . (count($names) ? ', did you mean:' . PHP_EOL . implode(PHP_EOL, $names) : '.') . PHP_EOL);
+exit(1);

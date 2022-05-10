@@ -1,3 +1,0 @@
-[submodule "pkg/ftp"]
-	path = pkg/ftp
-	url = https://github.com/SIKessEm/FTP.git
