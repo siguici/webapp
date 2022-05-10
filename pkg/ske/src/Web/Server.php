@@ -3,7 +3,7 @@
 namespace Ske\Web;
 
 class Server {
-	public function __construct(string $name, string $root, string|array $indexes = 'index', string|array $extensions = 'php') {
+	public function __construct(string $name, string $root, string|array $indexes = ['index', 'home'], string|array $extensions = ['php', 'html']) {
 		$this->setName($name);
 		$this->setRoot($root);
 		$this->setIndexes((array) $indexes);
